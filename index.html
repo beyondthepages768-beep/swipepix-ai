@@ -4,142 +4,641 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Create beautiful TikTok photo swipe carousels for free. Upload photos, customize slides and download your carousel.">
-<title>SwipePix AI - TikTok Photo Swipe Maker</title>
+
+<title>SwipePix AI - Free TikTok Photo Swipe Maker</title>
+
+<meta name="description" content="Create beautiful TikTok photo swipe carousels for free. Upload, customize and download your photo slides instantly.">
+
+<meta name="theme-color" content="#0b0b12">
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#0b0b12;color:#fff;font-family:Arial,sans-serif}
-header{text-align:center;padding:35px 15px}
-.logo{font-size:30px;font-weight:800;color:#ff4f91}
-header p{color:#aaa}
-main{max-width:850px;margin:auto;padding:15px}
-.panel{background:#171722;border:1px solid #303044;border-radius:16px;padding:22px;margin-bottom:20px}
-h2{font-size:19px}
-.upload{display:block;border:2px dashed #777;border-radius:12px;padding:35px 15px;text-align:center;cursor:pointer;color:#ddd}
-.upload input{display:none}
-input[type=text]{width:100%;padding:14px;border-radius:9px;border:1px solid #444;background:#101019;color:white;margin-top:10px}
-button{border:0;border-radius:9px;padding:13px 18px;background:#ff4085;color:white;font-weight:bold;cursor:pointer;margin:5px}
-button:disabled{opacity:.4}
-#slides{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
-.slide{background:#252535;border-radius:12px;padding:8px;text-align:center}
-.slide img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px}
-.slide button{font-size:12px;padding:8px}
-.muted{color:#aaa;font-size:13px}
-footer{text-align:center;padding:30px;color:#888}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --pink: #ff4085;
+  --purple: #a855f7;
+  --blue: #36cfff;
+  --bg: #0b0b12;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  overflow-x: hidden;
+  font-family: Arial, sans-serif;
+  background:
+    radial-gradient(ellipse at 20% 10%, #35133e 0%, transparent 40%),
+    radial-gradient(ellipse at 85% 65%, #171747 0%, transparent 40%),
+    var(--bg);
+  color: white;
+}
+
+/* PARTICLE CANVAS */
+
+#particles {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+header, main, footer {
+  position: relative;
+  z-index: 1;
+}
+
+/* NAVBAR */
+
+nav {
+  max-width: 1100px;
+  margin: auto;
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: 900;
+  background: linear-gradient(90deg,var(--pink),var(--purple),var(--blue));
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  animation: gradient 4s linear infinite;
+}
+
+@keyframes gradient {
+  to { background-position: 200% center; }
+}
+
+.nav-btn {
+  text-decoration: none;
+  color: white;
+  background: #ffffff12;
+  border: 1px solid #ffffff25;
+  padding: 10px 17px;
+  border-radius: 30px;
+}
+
+/* HERO */
+
+.hero {
+  text-align: center;
+  padding: 65px 15px 45px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 9px 16px;
+  border-radius: 30px;
+  background: #ff40851a;
+  border: 1px solid #ff408555;
+  color: #ff8db7;
+  font-size: 13px;
+  margin-bottom: 25px;
+}
+
+.hero h1 {
+  font-size: clamp(34px,6vw,62px);
+  line-height: 1.15;
+  font-weight: 900;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg,#ff4085,#a855f7,#36cfff);
+  color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: 20px auto;
+  line-height: 1.7;
+  color: #aaaabb;
+  font-size: 16px;
+}
+
+/* MAIN */
+
+main {
+  max-width: 950px;
+  padding: 15px;
+  margin: auto;
+}
+
+.panel {
+  background: #ffffff09;
+  border: 1px solid #ffffff1b;
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 22px;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 15px 45px #00000025;
+  transition: .3s ease;
+}
+
+.panel:hover {
+  border-color: #ff408566;
+  transform: translateY(-3px);
+}
+
+.panel h2 {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.step {
+  color: #ff70a8;
+  font-size: 12px;
+  letter-spacing: 2px;
+  margin-bottom: 9px;
+  font-weight: bold;
+}
+
+/* UPLOAD */
+
+.upload {
+  display: block;
+  text-align: center;
+  padding: 40px 15px;
+  border: 2px dashed #ffffff40;
+  border-radius: 15px;
+  cursor: pointer;
+  background: #ffffff05;
+  transition: .3s;
+}
+
+.upload:hover {
+  background: #ff408510;
+  border-color: var(--pink);
+}
+
+.upload-icon {
+  font-size: 43px;
+  margin-bottom: 12px;
+}
+
+.upload input {
+  display: none;
+}
+
+.muted {
+  color: #9999ac;
+  font-size: 13px;
+  margin-top: 9px;
+}
+
+/* INPUT */
+
+input[type="text"] {
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #ffffff25;
+  outline: none;
+  background: #090912;
+  color: white;
+  margin-top: 12px;
+  font-size: 15px;
+}
+
+input:focus {
+  border-color: var(--pink);
+}
+
+/* BUTTONS */
+
+button {
+  padding: 12px 17px;
+  margin: 5px 4px 5px 0;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  background: linear-gradient(90deg,#ff4085,#a855f7);
+  transition: .25s;
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 22px #ff408555;
+}
+
+.secondary {
+  background: #ffffff17;
+  border: 1px solid #ffffff20;
+}
+
+.download {
+  background: linear-gradient(90deg,#a855f7,#36cfff);
+}
+
+/* SLIDES */
+
+#slides {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(155px,1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.slide {
+  background: #ffffff0b;
+  border: 1px solid #ffffff17;
+  border-radius: 13px;
+  padding: 9px;
+  overflow: hidden;
+  transition: .3s;
+}
+
+.slide:hover {
+  transform: translateY(-6px);
+  border-color: var(--pink);
+}
+
+.slide img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+  border-radius: 9px;
+}
+
+.slide p {
+  font-size: 13px;
+  margin: 10px 0;
+}
+
+.slide button {
+  font-size: 11px;
+  padding: 9px;
+}
+
+.slide-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* FOOTER */
+
+footer {
+  text-align: center;
+  padding: 40px 15px;
+  color: #88889c;
+  font-size: 13px;
+  line-height: 2;
+}
+
+@media(max-width:600px) {
+  .hero {
+    padding-top: 45px;
+  }
+
+  .panel {
+    padding: 17px;
+  }
+
+  #slides {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+
+  nav {
+    padding: 17px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
 </style>
 </head>
+
 <body>
-<header>
-<div class="logo">SwipePix AI ✨</div>
-<h1>TikTok Photo Swipe Maker</h1>
-<p>Create beautiful photo carousels in seconds. Free to use!</p>
+
+<canvas id="particles" aria-hidden="true"></canvas>
+
+<nav>
+  <div class="logo">✨ SwipePix AI</div>
+  <a href="#editor" class="nav-btn">Create Now ↗</a>
+</nav>
+
+<header class="hero">
+  <div class="tag">✦ FREE TIKTOK PHOTO CAROUSEL MAKER</div>
+
+  <h1>
+    Create Stunning<br>
+    <span class="gradient-text">Photo Swipe Slides</span>
+  </h1>
+
+  <p>
+    Turn your favorite photos into beautiful TikTok-style
+    swipe carousels. Upload, customize and download
+    your slides in seconds.
+  </p>
 </header>
 
-<main>
+<main id="editor">
+
 <section class="panel">
-<h2>1. Upload your photos</h2>
-<label class="upload">
-📸<br><br>
-<strong>Choose Multiple Photos</strong>
-<p class="muted">Select JPG, PNG or WebP images</p>
-<input type="file" id="files" accept="image/*" multiple>
-</label>
-<p class="muted">Your photos are processed in your browser.</p>
+  <div class="step">STEP 01</div>
+  <h2>📸 Upload Your Photos</h2>
+
+  <label class="upload">
+    <div class="upload-icon">🖼️</div>
+    <strong>Click to Upload Multiple Photos</strong>
+    <p class="muted">JPG, PNG and WebP supported</p>
+    <p class="muted">Your images stay in your browser.</p>
+    <input type="file" id="files" accept="image/jpeg,image/png,image/webp" multiple>
+  </label>
+
+  <p class="muted" id="count">No photos selected yet.</p>
 </section>
 
 <section class="panel">
-<h2>2. Customize your carousel</h2>
-<label>Carousel title</label>
-<input type="text" id="heading" placeholder="My amazing photo collection">
-<br><br>
-<button onclick="generate()">Generate Slides</button>
-<button onclick="clearAll()" style="background:#444">Clear All</button>
+  <div class="step">STEP 02</div>
+  <h2>🎨 Customize Your Carousel</h2>
+
+  <label for="heading">Carousel Title</label>
+  <input type="text" id="heading" maxlength="45"
+    placeholder="My Amazing Photo Collection">
+
+  <br><br>
+
+  <button onclick="render()">✨ Generate Slides</button>
+  <button class="secondary" onclick="clearAll()">Clear All</button>
 </section>
 
 <section class="panel">
-<h2>3. Preview and download</h2>
-<p class="muted" id="count">No photos uploaded yet.</p>
-<div id="slides"></div>
+  <div class="step">STEP 03</div>
+  <h2>🚀 Preview & Download</h2>
+
+  <p class="muted">
+    Preview your slides and download each image separately.
+  </p>
+
+  <div id="slides"></div>
 </section>
+
 </main>
 
-<footer>© 2026 SwipePix AI · Free TikTok Photo Carousel Maker</footer>
+<footer>
+  <div class="logo">SwipePix AI ✨</div>
+  <p>Create. Swipe. Share.</p>
+  <p>© 2026 SwipePix AI. All rights reserved.</p>
+</footer>
 
 <script>
-let photos=[];
-const files=document.getElementById('files');
-files.addEventListener('change',()=>{
-  [...files.files].forEach(file=>{
-    if(!file.type.startsWith('image/')) return;
-    const reader=new FileReader();
-    reader.onload=e=>{
-      photos.push({src:e.target.result,name:file.name});
-      render();
-    };
-    reader.readAsDataURL(file);
+/* PARTICLE ANIMATION */
+
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+let dots = [];
+let width = 0;
+let height = 0;
+let animationFrame;
+
+function resizeCanvas() {
+  const ratio = Math.min(window.devicePixelRatio || 1, 2);
+  width = window.innerWidth;
+  height = window.innerHeight;
+
+  canvas.width = width * ratio;
+  canvas.height = height * ratio;
+
+  ctx.setTransform(ratio,0,0,ratio,0,0);
+
+  const amount = Math.min(65,Math.max(25,Math.floor(width/15)));
+
+  dots = Array.from({length:amount},()=>({
+    x:Math.random()*width,
+    y:Math.random()*height,
+    r:Math.random()*2+0.5,
+    speed:Math.random()*0.35+0.12,
+    color:["#ff4085","#a855f7","#36cfff"][
+      Math.floor(Math.random()*3)
+    ]
+  }));
+}
+
+function animateParticles() {
+  ctx.clearRect(0,0,width,height);
+
+  dots.forEach(p=>{
+    p.y -= p.speed;
+    p.x += Math.sin(p.y*0.01)*0.12;
+
+    if(p.y < -5) {
+      p.y = height+5;
+      p.x = Math.random()*width;
+    }
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.color;
+    ctx.globalAlpha=0.65;
+    ctx.fill();
   });
-  files.value='';
+
+  ctx.globalAlpha=1;
+
+  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    animationFrame=requestAnimationFrame(animateParticles);
+  }
+}
+
+resizeCanvas();
+animateParticles();
+
+window.addEventListener("resize",()=>{
+  resizeCanvas();
+  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    cancelAnimationFrame(animationFrame);
+    animateParticles();
+  }
 });
 
-function render(){
- document.getElementById('count').textContent=
- photos.length+' photos selected';
- document.getElementById('slides').innerHTML='';
- photos.forEach((p,i)=>{
-  const div=document.createElement('div');
-  div.className='slide';
-  const img=document.createElement('img');
-  img.src=p.src;
-  const label=document.createElement('p');
-  label.textContent='Slide '+(i+1);
-  const remove=document.createElement('button');
-  remove.textContent='Remove';
-  remove.onclick=()=>{photos.splice(i,1);render()};
-  div.append(img,label,remove);
-  document.getElementById('slides').append(div);
- });
-}
+/* PHOTO EDITOR */
 
-function clearAll(){
- photos=[];
- render();
-}
+let photos=[];
+const fileInput=document.getElementById("files");
 
-function generate(){
- if(!photos.length){
-  alert('Please upload some photos first!');
-  return;
- }
- render();
-}
+fileInput.addEventListener("change",async()=>{
+  const selected=[...fileInput.files];
 
-function downloadSlide(index){
- const photo=photos[index];
- const img=new Image();
- img.onload=()=>{
-  const canvas=document.createElement('canvas');
-  canvas.width=1080;
-  canvas.height=1440;
-  const ctx=canvas.getContext('2d');
-  const scale=Math.max(1080/img.width,1440/img.height);
-  const w=img.width*scale,h=img.height*scale;
-  ctx.drawImage(img,(1080-w)/2,(1440-h)/2,w,h);
-  const title=document.getElementById('heading').value;
-  if(title){
-   ctx.fillStyle='rgba(0,0,0,.55)';
-   ctx.fillRect(0,1280,1080,160);
-   ctx.fillStyle='white';
-   ctx.font='bold 46px Arial';
-   ctx.fillText(title.slice(0,35),45,1370);
+  for(const file of selected) {
+    if(!file.type.startsWith("image/")) continue;
+
+    if(photos.length>=20) {
+      alert("Maximum 20 photos allowed.");
+      break;
+    }
+
+    if(file.size>10*1024*1024) {
+      alert(file.name+" is larger than 10 MB.");
+      continue;
+    }
+
+    const src=await new Promise((resolve,reject)=>{
+      const reader=new FileReader();
+      reader.onload=()=>resolve(reader.result);
+      reader.onerror=reject;
+      reader.readAsDataURL(file);
+    });
+
+    photos.push({src,name:file.name});
   }
-  const a=document.createElement('a');
-  a.download='swipepix-slide-'+(index+1)+'.png';
-  a.href=canvas.toDataURL('image/png');
-  a.click();
- };
- img.src=photo.src;
+
+  fileInput.value="";
+  render();
+});
+
+function render() {
+  const container=document.getElementById("slides");
+
+  document.getElementById("count").textContent=
+    photos.length+" / 20 photos selected";
+
+  container.innerHTML="";
+
+  photos.forEach((photo,index)=>{
+    const card=document.createElement("div");
+    card.className="slide";
+
+    const img=document.createElement("img");
+    img.src=photo.src;
+    img.alt="Carousel photo "+(index+1);
+
+    const label=document.createElement("p");
+    label.textContent="Slide "+(index+1);
+
+    const actions=document.createElement("div");
+    actions.className="slide-actions";
+
+    const download=document.createElement("button");
+    download.className="download";
+    download.textContent="⬇ Download";
+    download.onclick=()=>downloadSlide(index);
+
+    const remove=document.createElement("button");
+    remove.className="secondary";
+    remove.textContent="✕ Remove";
+    remove.onclick=()=>{
+      photos.splice(index,1);
+      render();
+    };
+
+    const up=document.createElement("button");
+    up.className="secondary";
+    up.textContent="↑";
+    up.disabled=index===0;
+    up.onclick=()=>movePhoto(index,-1);
+
+    const down=document.createElement("button");
+    down.className="secondary";
+    down.textContent="↓";
+    down.disabled=index===photos.length-1;
+    down.onclick=()=>movePhoto(index,1);
+
+    actions.append(download,remove,up,down);
+    card.append(img,label,actions);
+    container.append(card);
+  });
 }
+
+function movePhoto(index,direction) {
+  const target=index+direction;
+
+  if(target<0 || target>=photos.length) return;
+
+  [photos[index],photos[target]]=
+  [photos[target],photos[index]];
+
+  render();
+}
+
+function clearAll() {
+  if(photos.length && !confirm("Remove all photos?")) return;
+
+  photos=[];
+  render();
+}
+
+/* DOWNLOAD IMAGE */
+
+function downloadSlide(index) {
+  const photo=photos[index];
+  if(!photo) return;
+
+  const img=new Image();
+
+  img.onload=()=>{
+    const canvas=document.createElement("canvas");
+    canvas.width=1080;
+    canvas.height=1440;
+
+    const context=canvas.getContext("2d");
+
+    const scale=Math.max(
+      1080/img.width,
+      1440/img.height
+    );
+
+    const w=img.width*scale;
+    const h=img.height*scale;
+
+    context.drawImage(
+      img,
+      (1080-w)/2,
+      (1440-h)/2,
+      w,h
+    );
+
+    const title=document.getElementById("heading").value.trim();
+
+    if(title) {
+      const gradient=context.createLinearGradient(0,1280,0,1440);
+      gradient.addColorStop(0,"rgba(0,0,0,0)");
+      gradient.addColorStop(1,"rgba(0,0,0,0.85)");
+
+      context.fillStyle=gradient;
+      context.fillRect(0,1250,1080,190);
+
+      context.fillStyle="#ffffff";
+      context.font="bold 46px Arial";
+      context.textAlign="center";
+      context.fillText(title,540,1370,990);
+    }
+
+    const link=document.createElement("a");
+    link.download="swipepix-slide-"+(index+1)+".png";
+    link.href=canvas.toDataURL("image/png");
+    link.click();
+  };
+
+  img.onerror=()=>alert("Could not process this image.");
+
+  img.src=photo.src;
+}
+
+render();
 </script>
+
 </body>
 </html>
-
