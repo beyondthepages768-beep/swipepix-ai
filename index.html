@@ -1,725 +1,1105 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#090914">
-<title>SwipePix AI — Photo Swipe Creator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080914">
+  <title>SwipePix AI — Create. Transform. Swipe.</title>
+  <meta name="description" content="Create stunning AI images and transform your photos with SwipePix AI.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
+  <style>
+    :root {
+      --bg: #080914;
+      --panel: rgba(20, 22, 43, .82);
+      --panel2: #15172b;
+      --text: #f5f5ff;
+      --muted: #9b9db8;
+      --purple: #9b6cff;
+      --pink: #ff65b5;
+      --cyan: #54dfff;
+      --border: rgba(255,255,255,.1);
+      --radius: 20px;
+    }
 
-body{
-  font-family:Arial,sans-serif;
-  color:white;
-  background:radial-gradient(circle at top,#321044,#090914 55%);
-  min-height:100vh;
-  overflow-x:hidden;
-}
+    * { box-sizing: border-box; }
 
-#particles{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-  z-index:0;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 10% 10%, rgba(111,65,210,.18), transparent 38%),
+        radial-gradient(ellipse at 90% 30%, rgba(37,161,200,.12), transparent 35%),
+        var(--bg);
+      font-family: "DM Sans", sans-serif;
+      overflow-x: hidden;
+    }
 
-header,main,footer{position:relative;z-index:1}
+    #particles {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
 
-nav{
-  max-width:1100px;
-  margin:auto;
-  padding:22px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+    button, input, textarea, select { font: inherit; }
 
-.logo{
-  font-size:25px;
-  font-weight:900;
-  background:linear-gradient(90deg,#ff4d91,#a855f7,#43d9ff);
-  color:transparent;
-  background-clip:text;
-}
+    button { cursor: pointer; }
 
-.hero{
-  text-align:center;
-  padding:65px 18px 40px;
-}
+    .container {
+      width: min(1120px, calc(100% - 36px));
+      margin: auto;
+    }
 
-.hero h1{
-  font-size:clamp(38px,7vw,68px);
-  margin:20px 0;
-  font-weight:900;
-}
+    header {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
 
-.gradient{
-  background:linear-gradient(90deg,#ff4d91,#a855f7,#43d9ff);
-  background-clip:text;
-  color:transparent;
-}
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font: 700 23px "Space Grotesk", sans-serif;
+      letter-spacing: -1px;
+    }
 
-.hero p{
-  color:#aaa;
-  line-height:1.7;
-  max-width:600px;
-  margin:auto;
-}
+    .logo-icon {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      background: linear-gradient(135deg, var(--purple), var(--pink));
+      box-shadow: 0 0 25px rgba(155,108,255,.3);
+      font-size: 21px;
+    }
 
-main{
-  max-width:950px;
-  padding:15px;
-  margin:auto;
-}
+    .logo span { color: #c19aff; }
 
-.panel{
-  background:#ffffff0c;
-  border:1px solid #ffffff20;
-  border-radius:20px;
-  padding:25px;
-  margin-bottom:20px;
-  backdrop-filter:blur(15px);
-}
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-h2{margin-bottom:18px}
+    .status {
+      color: #9fffd2;
+      background: rgba(48,210,145,.1);
+      border: 1px solid rgba(48,210,145,.2);
+      padding: 8px 12px;
+      border-radius: 30px;
+      font-size: 12px;
+    }
 
-.drop{
-  display:block;
-  text-align:center;
-  padding:35px 15px;
-  border:2px dashed #ff4d91;
-  border-radius:15px;
-  cursor:pointer;
-  background:#ffffff08;
-}
+    .hero {
+      text-align: center;
+      padding: 62px 10px 38px;
+    }
 
-.drop input{display:none}
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      border: 1px solid rgba(180,140,255,.25);
+      background: rgba(155,108,255,.09);
+      color: #d3baff;
+      border-radius: 40px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .6px;
+    }
 
-.drop .emoji{
-  font-size:42px;
-  margin-bottom:12px;
-}
+    .hero h1 {
+      font: 700 clamp(36px, 6vw, 66px)/1.08 "Space Grotesk", sans-serif;
+      letter-spacing: -3px;
+      margin: 22px 0 14px;
+    }
 
-button{
-  border:0;
-  padding:12px 16px;
-  border-radius:10px;
-  color:white;
-  font-weight:bold;
-  cursor:pointer;
-  background:linear-gradient(90deg,#ff4d91,#a855f7);
-  transition:.2s;
-}
+    .gradient-text {
+      background: linear-gradient(90deg, #bd9aff, #ff83c5, #63ddff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-button:hover{transform:translateY(-2px)}
-button:disabled{opacity:.4;cursor:not-allowed}
+    .hero p {
+      color: var(--muted);
+      max-width: 570px;
+      margin: auto;
+      line-height: 1.7;
+      font-size: 15px;
+    }
 
-.secondary{background:#ffffff18}
-.download{background:linear-gradient(90deg,#744cff,#19bce8)}
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, .9fr);
+      gap: 20px;
+      align-items: start;
+      padding-bottom: 65px;
+    }
 
-input[type=text],select{
-  width:100%;
-  padding:14px;
-  margin:10px 0 18px;
-  background:#151525;
-  color:white;
-  border:1px solid #ffffff25;
-  border-radius:10px;
-  outline:none;
-}
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 23px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 15px 55px rgba(0,0,0,.2);
+      min-width: 0;
+    }
 
-label.field{
-  display:block;
-  font-size:14px;
-  font-weight:bold;
-}
+    .panel-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
 
-.toolbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:15px;
-}
+    .panel-heading h2 {
+      margin: 0;
+      font: 700 19px "Space Grotesk", sans-serif;
+    }
 
-.count,.hint{color:#aaa;font-size:13px}
+    .small-label {
+      font-size: 11px;
+      color: #c6aaff;
+      background: rgba(155,108,255,.12);
+      padding: 6px 9px;
+      border-radius: 20px;
+    }
 
-#slides{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
-  gap:14px;
-  margin-top:20px;
-}
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      padding: 6px;
+      background: rgba(0,0,0,.23);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      margin-bottom: 23px;
+    }
 
-.slide{
-  padding:9px;
-  border-radius:15px;
-  border:1px solid #ffffff25;
-  background:#10101d;
-}
+    .tab {
+      color: var(--muted);
+      background: transparent;
+      border: 0;
+      padding: 12px 7px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: .2s;
+    }
 
-.slide img{
-  width:100%;
-  aspect-ratio:3/4;
-  object-fit:cover;
-  border-radius:10px;
-}
+    .tab.active {
+      color: white;
+      background: linear-gradient(110deg, #7950d9, #a45bd9);
+      box-shadow: 0 5px 20px rgba(137,83,220,.25);
+    }
 
-.slidehead{
-  display:flex;
-  justify-content:space-between;
-  gap:5px;
-  margin:10px 0;
-  font-size:12px;
-}
+    .field-label {
+      display: block;
+      margin: 17px 0 9px;
+      font-size: 13px;
+      font-weight: 700;
+    }
 
-.slidehead span:last-child{
-  overflow:hidden;
-  text-overflow:ellipsis;
-  white-space:nowrap;
-  color:#aaa;
-}
+    textarea, select {
+      width: 100%;
+      color: white;
+      background: rgba(4,5,17,.65);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      padding: 14px;
+      transition: .2s;
+    }
 
-.actions{
-  display:flex;
-  gap:5px;
-  flex-wrap:wrap;
-}
+    textarea {
+      min-height: 125px;
+      resize: vertical;
+      line-height: 1.6;
+    }
 
-.actions button{
-  flex:1;
-  padding:9px 5px;
-  font-size:11px;
-}
+    textarea:focus, select:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px rgba(155,108,255,.1);
+    }
 
-.empty{
-  grid-column:1/-1;
-  text-align:center;
-  padding:30px;
-  color:#aaa;
-  border:1px dashed #ffffff30;
-  border-radius:12px;
-}
+    textarea::placeholder { color: #777991; }
 
-.status{
-  color:#43d9ff;
-  margin-top:12px;
-  font-size:13px;
-}
+    select { cursor: pointer; }
+    select option { background: #15172b; }
 
-footer{
-  text-align:center;
-  color:#888;
-  padding:30px;
-  font-size:13px;
-}
+    .presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
 
-@media(max-width:600px){
-  .hero{padding:40px 15px}
-  .hero h1{font-size:42px}
-  .panel{padding:17px}
-  #slides{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-  .toolbar button{flex:1}
-}
+    .preset {
+      color: #c9c7e3;
+      background: rgba(255,255,255,.045);
+      border: 1px solid var(--border);
+      padding: 8px 11px;
+      border-radius: 30px;
+      font-size: 11px;
+      transition: .2s;
+    }
 
-@media(prefers-reduced-motion:reduce){
-  *{scroll-behavior:auto!important;transition:none!important}
-}
-</style>
+    .preset:hover {
+      border-color: var(--purple);
+      color: white;
+      background: rgba(155,108,255,.12);
+    }
+
+    .upload-area {
+      border: 1.5px dashed rgba(177,142,255,.4);
+      background: rgba(155,108,255,.055);
+      border-radius: 15px;
+      padding: 23px 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .upload-area:hover, .upload-area.dragover {
+      border-color: var(--pink);
+      background: rgba(155,108,255,.12);
+    }
+
+    .upload-icon {
+      font-size: 30px;
+      margin-bottom: 9px;
+    }
+
+    .upload-area strong {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .upload-area small {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    #photoInput { display: none; }
+
+    .upload-preview {
+      display: none;
+      margin-top: 12px;
+      position: relative;
+      border-radius: 13px;
+      overflow: hidden;
+      background: #080914;
+    }
+
+    .upload-preview img {
+      display: block;
+      width: 100%;
+      max-height: 220px;
+      object-fit: contain;
+    }
+
+    .remove-photo {
+      position: absolute;
+      right: 9px;
+      top: 9px;
+      color: white;
+      border: 0;
+      border-radius: 30px;
+      padding: 7px 10px;
+      background: rgba(0,0,0,.75);
+      font-size: 12px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .primary-btn {
+      width: 100%;
+      margin-top: 22px;
+      padding: 15px 18px;
+      border: 0;
+      border-radius: 13px;
+      color: white;
+      font-weight: 800;
+      font-size: 14px;
+      background: linear-gradient(105deg, #8555e8, #d45cba);
+      box-shadow: 0 8px 25px rgba(155,85,220,.25);
+      transition: .2s;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(155,85,220,.4);
+    }
+
+    .primary-btn:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .privacy-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.6;
+      margin: 13px 0 0;
+    }
+
+    .result-panel {
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .result-stage {
+      min-height: 420px;
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background:
+        linear-gradient(45deg, rgba(255,255,255,.025) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255,255,255,.025) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255,255,255,.025) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,.025) 75%),
+        #0c0d1b;
+      background-size: 24px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      padding: 12px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 20px;
+      max-width: 270px;
+    }
+
+    .empty-art {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 20px;
+      border-radius: 25px;
+      display: grid;
+      place-items: center;
+      font-size: 39px;
+      background: linear-gradient(135deg, rgba(155,108,255,.25), rgba(255,101,181,.16));
+      border: 1px solid rgba(255,255,255,.1);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-9px); }
+    }
+
+    .empty-state h3 {
+      font: 700 17px "Space Grotesk", sans-serif;
+      margin: 0 0 8px;
+    }
+
+    .empty-state p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    #resultImage {
+      display: none;
+      max-width: 100%;
+      max-height: 600px;
+      object-fit: contain;
+      border-radius: 10px;
+    }
+
+    .loading-state {
+      display: none;
+      text-align: center;
+      padding: 25px;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,.12);
+      border-top-color: #bb8cff;
+      animation: spin .8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-state h3 {
+      font: 700 16px "Space Grotesk", sans-serif;
+      margin: 0 0 7px;
+    }
+
+    .loading-state p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .result-actions {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .secondary-btn {
+      color: white;
+      background: rgba(255,255,255,.07);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 12px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .secondary-btn:hover { background: rgba(255,255,255,.13); }
+
+    .error-message {
+      display: none;
+      margin-top: 13px;
+      padding: 12px;
+      border: 1px solid rgba(255,100,120,.3);
+      border-radius: 10px;
+      color: #ffb0bd;
+      background: rgba(255,80,100,.08);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      padding-bottom: 65px;
+    }
+
+    .feature {
+      padding: 20px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.035);
+      border-radius: 16px;
+    }
+
+    .feature-icon { font-size: 24px; }
+
+    .feature h3 {
+      font: 700 14px "Space Grotesk", sans-serif;
+      margin: 12px 0 7px;
+    }
+
+    .feature p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 23px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 800px) {
+      .workspace { grid-template-columns: 1fr; }
+      .result-panel { min-height: 480px; }
+      .result-stage { min-height: 340px; }
+      .hero { padding-top: 48px; }
+    }
+
+    @media (max-width: 520px) {
+      .container { width: min(100% - 22px, 1120px); }
+      header { height: 66px; }
+      .logo { font-size: 19px; }
+      .logo-icon { width: 34px; height: 34px; }
+      .status { font-size: 10px; padding: 7px 9px; }
+      .hero { padding: 42px 4px 28px; }
+      .hero h1 { letter-spacing: -1.8px; }
+      .hero p { font-size: 13px; }
+      .panel { padding: 16px; border-radius: 16px; }
+      .panel-heading h2 { font-size: 17px; }
+      .tab { font-size: 11px; }
+      .result-stage { min-height: 300px; }
+      .result-panel { min-height: 420px; }
+      .features { grid-template-columns: 1fr; gap: 10px; }
+      .feature { padding: 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <canvas id="particles"></canvas>
 
-<canvas id="particles"></canvas>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-icon">✦</div>
+        Swipe<span>Pix</span> AI
+      </div>
+      <div class="header-right">
+        <div class="status">● AI Studio</div>
+      </div>
+    </header>
 
-<nav>
-  <div class="logo">✦ SwipePix AI</div>
-  <a href="#editor" style="color:white;text-decoration:none">Open Creator ↗</a>
-</nav>
+    <section class="hero">
+      <div class="eyebrow">✧ POWERED BY AI IMAGE GENERATION</div>
+      <h1>Create. Transform.<br><span class="gradient-text">Make It Swipe-Worthy.</span></h1>
+      <p>Turn your ideas into stunning images or transform your existing photos with AI. Your creativity starts here.</p>
+    </section>
 
-<header class="hero">
-  <span>✦ FREE PHOTO CAROUSEL CREATOR</span>
-  <h1>Make Photos<br><span class="gradient">Swipe-Worthy.</span></h1>
-  <p>Create beautiful TikTok-style photo carousels.
-  Upload, arrange and download your slides for free.</p>
-</header>
+    <main class="workspace">
+      <section class="panel">
+        <div class="panel-heading">
+          <h2>AI Creative Studio</h2>
+          <span class="small-label">FLUX AI</span>
+        </div>
 
-<main id="editor">
+        <div class="tabs">
+          <button class="tab active" id="generateTab" type="button">✦ Generate Image</button>
+          <button class="tab" id="transformTab" type="button">✧ Transform Photo</button>
+        </div>
 
-<section class="panel">
-  <h2>📸 Upload Photos</h2>
+        <form id="aiForm">
+          <div id="uploadSection" class="hidden">
+            <label class="field-label">Upload your photo</label>
 
-  <label class="drop" id="drop">
-    <div class="emoji">🖼️</div>
-    <strong>Tap to upload or drag photos here</strong>
-    <p class="hint">JPG, PNG and WebP · Maximum 20 photos</p>
-    <input id="files" type="file" accept="image/jpeg,image/png,image/webp" multiple>
-  </label>
+            <div class="upload-area" id="uploadArea" role="button" tabindex="0">
+              <div class="upload-icon">📸</div>
+              <strong>Click or drop your photo here</strong>
+              <small>PNG, JPG or WEBP · Maximum 8 MB</small>
+            </div>
 
-  <div class="toolbar">
-    <span class="count" id="count">0 / 20 photos</span>
-    <button class="secondary" id="clear">Clear All</button>
+            <input id="photoInput" type="file" accept="image/png,image/jpeg,image/webp">
+
+            <div class="upload-preview" id="uploadPreview">
+              <img id="sourcePreview" alt="Your uploaded photo">
+              <button type="button" class="remove-photo" id="removePhoto">✕ Remove</button>
+            </div>
+          </div>
+
+          <label class="field-label" for="prompt">Describe your imagination</label>
+          <textarea id="prompt" maxlength="1000" required placeholder="Example: A cinematic portrait of a young person standing in a neon-lit futuristic city, ultra realistic, beautiful lighting, 4K..."></textarea>
+
+          <label class="field-label">Choose a style</label>
+          <div class="presets">
+            <button type="button" class="preset" data-prompt="Create a cinematic, ultra realistic photograph with dramatic movie lighting, rich details and professional color grading.">🎬 Cinematic</button>
+            <button type="button" class="preset" data-prompt="Create a beautiful anime-inspired illustration with expressive details, vibrant colors and professional anime artwork.">🎨 Anime</button>
+            <button type="button" class="preset" data-prompt="Create a photorealistic luxury editorial photograph with premium fashion styling and soft studio lighting.">💎 Luxury</button>
+            <button type="button" class="preset" data-prompt="Create a dreamy fantasy world with magical glowing light, beautiful atmosphere and intricate details.">🪄 Fantasy</button>
+            <button type="button" class="preset" data-prompt="Create a professional 3D render with polished materials, realistic shadows and beautiful lighting.">🧊 3D Art</button>
+            <button type="button" class="preset" data-prompt="Create a professional minimalist aesthetic with clean composition, elegant colors and soft natural lighting.">🤍 Minimal</button>
+          </div>
+
+          <div class="options-grid">
+            <div>
+              <label class="field-label" for="aspectRatio">Image shape</label>
+              <select id="aspectRatio">
+                <option value="1024,1024">Square · 1:1</option>
+                <option value="768,1024" selected>Portrait · 3:4</option>
+                <option value="1024,768">Landscape · 4:3</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label" for="quality">Output size</label>
+              <select id="quality">
+                <option value="standard" selected>Standard</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="primary-btn" id="generateBtn" type="submit">
+            ✨ Generate with AI
+          </button>
+
+          <p class="privacy-note">Your uploaded image is sent to the AI service to process your request. Don't upload sensitive or private images.</p>
+        </form>
+      </section>
+
+      <section class="panel result-panel">
+        <div class="panel-heading">
+          <h2>Your Creation</h2>
+          <span class="small-label" id="resultLabel">PREVIEW</span>
+        </div>
+
+        <div class="result-stage">
+          <div class="empty-state" id="emptyState">
+            <div class="empty-art">✦</div>
+            <h3>Your masterpiece awaits</h3>
+            <p>Write a prompt and press Generate. Your AI creation will appear here.</p>
+          </div>
+
+          <div class="loading-state" id="loadingState">
+            <div class="spinner"></div>
+            <h3>Creating your image...</h3>
+            <p id="loadingText">AI is bringing your imagination to life.<br>Please wait a little.</p>
+          </div>
+
+          <img id="resultImage" alt="AI generated result">
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <div class="result-actions" id="resultActions">
+          <button type="button" class="secondary-btn" id="downloadBtn">⬇ Download PNG</button>
+          <button type="button" class="secondary-btn" id="newImageBtn">↻ Create another</button>
+        </div>
+      </section>
+    </main>
+
+    <section class="features">
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>AI Image Generator</h3>
+        <p>Describe any idea and generate a brand-new image from your text prompt.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🪄</div>
+        <h3>AI Photo Transformer</h3>
+        <p>Upload an image and describe the changes you want AI to make.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📱</div>
+        <h3>Made for Creators</h3>
+        <p>Responsive interface designed for phones, tablets and desktop screens.</p>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> SwipePix AI · Create something amazing.
+    </footer>
   </div>
-</section>
 
-<section class="panel">
-  <h2>🎨 Customize</h2>
+  <script>
+    // ---------------------------------------
+    // SwipePix AI — Frontend configuration
+    // ---------------------------------------
 
-  <label class="field" for="heading">Photo Title</label>
-  <input id="heading" type="text" maxlength="60"
-    placeholder="A little moment worth sharing">
+    const API_URL = "/api/ai";
+    const MAX_FILE_SIZE = 8 * 1024 * 1024;
 
-  <label class="field" for="format">Image Format</label>
-  <select id="format">
-    <option value="3:4">Portrait 1080 × 1440</option>
-    <option value="9:16">Full Screen 1080 × 1920</option>
-    <option value="1:1">Square 1080 × 1080</option>
-  </select>
+    const $ = (id) => document.getElementById(id);
 
-  <p class="hint">Drag slides to reorder or use the arrow buttons.</p>
-</section>
+    const generateTab = $("generateTab");
+    const transformTab = $("transformTab");
+    const uploadSection = $("uploadSection");
+    const photoInput = $("photoInput");
+    const uploadArea = $("uploadArea");
+    const uploadPreview = $("uploadPreview");
+    const sourcePreview = $("sourcePreview");
+    const promptInput = $("prompt");
+    const generateBtn = $("generateBtn");
+    const resultImage = $("resultImage");
+    const emptyState = $("emptyState");
+    const loadingState = $("loadingState");
+    const errorMessage = $("errorMessage");
+    const resultActions = $("resultActions");
 
-<section class="panel">
-  <h2>🚀 Preview & Download</h2>
+    let currentMode = "generate";
+    let selectedFile = null;
+    let generatedImage = null;
+    let isGenerating = false;
 
-  <div class="toolbar">
-    <span class="count">Your carousel slides</span>
-    <button class="download" id="zip" disabled>
-      ⬇ Download All ZIP
-    </button>
-  </div>
+    $("year").textContent = new Date().getFullYear();
 
-  <div id="slides">
-    <div class="empty">Upload photos to get started.</div>
-  </div>
+    // Switch between AI tools
+    function setMode(mode) {
+      if (isGenerating) return;
 
-  <div class="status" id="status"></div>
-</section>
+      currentMode = mode;
 
-</main>
+      generateTab.classList.toggle("active", mode === "generate");
+      transformTab.classList.toggle("active", mode === "transform");
 
-<footer>
-  <div class="logo">SwipePix AI ✦</div>
-  Create. Swipe. Share.<br>
-  Your photos stay in your browser.
-</footer>
+      uploadSection.classList.toggle("hidden", mode !== "transform");
 
-<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+      promptInput.placeholder = mode === "generate"
+        ? "Example: A cinematic portrait of a young person standing in a neon-lit futuristic city, ultra realistic, beautiful lighting, 4K..."
+        : "Example: Transform this photo into a cinematic cyberpunk portrait with purple neon lighting. Keep the main subject recognizable...";
 
-<script>
-const $=id=>document.getElementById(id);
-const MAX=20;
-const LIMIT=15*1024*1024;
+      generateBtn.textContent = mode === "generate"
+        ? "✨ Generate with AI"
+        : "🪄 Transform my Photo";
 
-let photos=[];
-let dragIndex=null;
-
-function say(text){
-  $("status").textContent=text;
-}
-
-function loadImage(file){
-  return new Promise((resolve,reject)=>{
-    const url=URL.createObjectURL(file);
-    const img=new Image();
-
-    img.onload=()=>resolve({file,url,img});
-    img.onerror=()=>{
-      URL.revokeObjectURL(url);
-      reject(new Error("Image loading failed"));
-    };
-
-    img.src=url;
-  });
-}
-
-async function addFiles(files){
-  let added=0;
-
-  for(const file of [...files]){
-    if(photos.length>=MAX){
-      say("Maximum 20 photos allowed.");
-      break;
+      clearError();
     }
 
-    if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
-      continue;
-    }
+    generateTab.addEventListener("click", () => setMode("generate"));
+    transformTab.addEventListener("click", () => setMode("transform"));
 
-    if(file.size>LIMIT){
-      say(file.name+" is larger than 15 MB.");
-      continue;
-    }
+    // Style preset buttons
+    document.querySelectorAll(".preset").forEach(button => {
+      button.addEventListener("click", () => {
+        const preset = button.dataset.prompt;
+        const current = promptInput.value.trim();
 
-    try{
-      photos.push(await loadImage(file));
-      added++;
-    }catch(e){
-      say(e.message);
-    }
-  }
+        promptInput.value = current
+          ? current + " " + preset
+          : preset;
 
-  render();
-
-  if(added) say(added+" photos added successfully!");
-}
-
-$("files").addEventListener("change",e=>{
-  addFiles(e.target.files);
-  e.target.value="";
-});
-
-const drop=$("drop");
-
-["dragenter","dragover"].forEach(type=>{
-  drop.addEventListener(type,e=>{
-    e.preventDefault();
-    drop.style.background="#ff4d9122";
-  });
-});
-
-["dragleave","drop"].forEach(type=>{
-  drop.addEventListener(type,e=>{
-    e.preventDefault();
-    drop.style.background="";
-  });
-});
-
-drop.addEventListener("drop",e=>{
-  addFiles(e.dataTransfer.files);
-});
-
-$("clear").addEventListener("click",()=>{
-  photos.forEach(p=>URL.revokeObjectURL(p.url));
-  photos=[];
-  render();
-  say("All photos cleared.");
-});
-
-function move(from,to){
-  if(to<0||to>=photos.length)return;
-
-  const item=photos.splice(from,1)[0];
-  photos.splice(to,0,item);
-
-  render();
-}
-
-function removeOne(index){
-  URL.revokeObjectURL(photos[index].url);
-  photos.splice(index,1);
-  render();
-  say("Photo removed.");
-}
-
-function render(){
-  $("count").textContent=photos.length+" / 20 photos";
-  $("zip").disabled=!photos.length;
-
-  const root=$("slides");
-  root.replaceChildren();
-
-  if(!photos.length){
-    const empty=document.createElement("div");
-    empty.className="empty";
-    empty.textContent="Upload photos to get started.";
-    root.append(empty);
-    return;
-  }
-
-  photos.forEach((photo,i)=>{
-    const card=document.createElement("div");
-    card.className="slide";
-    card.draggable=true;
-
-    const img=document.createElement("img");
-    img.src=photo.url;
-    img.alt="Slide "+(i+1);
-
-    const head=document.createElement("div");
-    head.className="slidehead";
-
-    const number=document.createElement("span");
-    number.textContent="SLIDE "+(i+1);
-
-    const name=document.createElement("span");
-    name.textContent=photo.file.name;
-    name.title=photo.file.name;
-
-    head.append(number,name);
-
-    const actions=document.createElement("div");
-    actions.className="actions";
-
-    function makeButton(text,cls,fn,disabled=false){
-      const b=document.createElement("button");
-      b.textContent=text;
-      b.className=cls;
-      b.disabled=disabled;
-      b.onclick=fn;
-      return b;
-    }
-
-    actions.append(
-      makeButton("↓ PNG","download",()=>downloadOne(i)),
-      makeButton("↑","secondary",()=>move(i,i-1),i===0),
-      makeButton("↓","secondary",()=>move(i,i+1),i===photos.length-1),
-      makeButton("✕","secondary",()=>removeOne(i))
-    );
-
-    card.append(img,head,actions);
-
-    card.addEventListener("dragstart",e=>{
-      dragIndex=i;
-      e.dataTransfer.effectAllowed="move";
+        promptInput.focus();
+      });
     });
 
-    card.addEventListener("dragover",e=>e.preventDefault());
+    // Upload handling
+    uploadArea.addEventListener("click", () => photoInput.click());
 
-    card.addEventListener("drop",e=>{
-      e.preventDefault();
-      if(dragIndex!==null&&dragIndex!==i){
-        move(dragIndex,i);
+    uploadArea.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        photoInput.click();
       }
-      dragIndex=null;
     });
 
-    root.append(card);
-  });
-}
+    photoInput.addEventListener("change", event => {
+      const file = event.target.files && event.target.files[0];
+      if (file) handlePhoto(file);
+    });
 
-function dimensions(){
-  const format=$("format").value;
+    ["dragenter", "dragover"].forEach(name => {
+      uploadArea.addEventListener(name, event => {
+        event.preventDefault();
+        uploadArea.classList.add("dragover");
+      });
+    });
 
-  if(format==="9:16")return [1080,1920];
-  if(format==="1:1")return [1080,1080];
+    ["dragleave", "drop"].forEach(name => {
+      uploadArea.addEventListener(name, event => {
+        event.preventDefault();
+        uploadArea.classList.remove("dragover");
+      });
+    });
 
-  return [1080,1440];
-}
+    uploadArea.addEventListener("drop", event => {
+      const file = event.dataTransfer.files[0];
+      if (file) handlePhoto(file);
+    });
 
-function makeSlide(photo){
-  return new Promise((resolve,reject)=>{
-    try{
-      const [w,h]=dimensions();
-      const canvas=document.createElement("canvas");
+    function handlePhoto(file) {
+      const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
 
-      canvas.width=w;
-      canvas.height=h;
+      if (!allowedTypes.includes(file.type)) {
+        showError("Please upload a PNG, JPG or WEBP image.");
+        return;
+      }
 
-      const ctx=canvas.getContext("2d");
+      if (file.size > MAX_FILE_SIZE) {
+        showError("Your photo is larger than 8 MB. Please choose a smaller image.");
+        return;
+      }
 
-      const scale=Math.max(
-        w/photo.img.naturalWidth,
-        h/photo.img.naturalHeight
-      );
+      selectedFile = file;
+      clearError();
 
-      const sw=photo.img.naturalWidth*scale;
-      const sh=photo.img.naturalHeight*scale;
+      const reader = new FileReader();
 
-      ctx.fillStyle="#111";
-      ctx.fillRect(0,0,w,h);
+      reader.onload = () => {
+        sourcePreview.src = reader.result;
+        uploadPreview.style.display = "block";
+      };
 
-      ctx.drawImage(
-        photo.img,
-        (w-sw)/2,
-        (h-sh)/2,
-        sw,
-        sh
-      );
+      reader.onerror = () => showError("Could not read this image. Please try another one.");
+      reader.readAsDataURL(file);
+    }
 
-      const title=$("heading").value.trim();
+    $("removePhoto").addEventListener("click", () => {
+      selectedFile = null;
+      photoInput.value = "";
+      sourcePreview.removeAttribute("src");
+      uploadPreview.style.display = "none";
+      clearError();
+    });
 
-      if(title){
-        const band=h*.17;
-        const y=h-band;
+    // Resize and compress input image before sending to the backend.
+    // The model's reference image inputs have a 512x512 size constraint.
+    async function prepareImage(file) {
+      const bitmap = await createImageBitmap(file);
 
-        const grad=ctx.createLinearGradient(0,y,0,h);
+      const scale = Math.min(512 / bitmap.width, 512 / bitmap.height, 1);
+      const width = Math.max(1, Math.round(bitmap.width * scale));
+      const height = Math.max(1, Math.round(bitmap.height * scale));
 
-        grad.addColorStop(0,"rgba(0,0,0,0)");
-        grad.addColorStop(1,"rgba(0,0,0,.85)");
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
 
-        ctx.fillStyle=grad;
-        ctx.fillRect(0,y,w,band);
+      const context = canvas.getContext("2d");
+      context.drawImage(bitmap, 0, 0, width, height);
+      bitmap.close();
 
-        let size=w*.047;
+      return canvas.toDataURL("image/jpeg", 0.88);
+    }
 
-        ctx.fillStyle="#fff";
-        ctx.textAlign="center";
-        ctx.textBaseline="middle";
-        ctx.font="bold "+size+"px Arial";
+    // User interface helpers
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.style.display = "block";
+    }
 
-        while(ctx.measureText(title).width>w*.88&&size>18){
-          size-=2;
-          ctx.font="bold "+size+"px Arial";
+    function clearError() {
+      errorMessage.textContent = "";
+      errorMessage.style.display = "none";
+    }
+
+    function showLoading(loading) {
+      isGenerating = loading;
+      generateBtn.disabled = loading;
+      generateTab.disabled = loading;
+      transformTab.disabled = loading;
+
+      if (loading) {
+        emptyState.style.display = "none";
+        resultImage.style.display = "none";
+        resultActions.style.display = "none";
+        loadingState.style.display = "block";
+        $("loadingText").innerHTML =
+          "AI is bringing your imagination to life.<br>Please wait a little.";
+        generateBtn.textContent = "⏳ Creating your image...";
+        $("resultLabel").textContent = "GENERATING";
+      } else {
+        loadingState.style.display = "none";
+        generateBtn.textContent = currentMode === "generate"
+          ? "✨ Generate with AI"
+          : "🪄 Transform my Photo";
+      }
+    }
+
+    function displayResult(imageData) {
+      generatedImage = imageData;
+      resultImage.src = imageData;
+      resultImage.style.display = "block";
+      emptyState.style.display = "none";
+      loadingState.style.display = "none";
+      resultActions.style.display = "grid";
+      $("resultLabel").textContent = "AI RESULT";
+    }
+
+    // Main AI request
+    $("aiForm").addEventListener("submit", async event => {
+      event.preventDefault();
+
+      if (isGenerating) return;
+
+      const prompt = promptInput.value.trim();
+
+      if (!prompt) {
+        showError("Please describe the image you want to create.");
+        promptInput.focus();
+        return;
+      }
+
+      if (prompt.length > 1000) {
+        showError("Your prompt is too long. Please keep it under 1000 characters.");
+        return;
+      }
+
+      if (currentMode === "transform" && !selectedFile) {
+        showError("Please upload a photo before transforming it.");
+        return;
+      }
+
+      clearError();
+
+      const dimensions = $("aspectRatio").value.split(",").map(Number);
+      let [width, height] = dimensions;
+
+      if ($("quality").value === "large") {
+        width = Math.min(1024, width);
+        height = Math.min(1024, height);
+      }
+
+      const payload = {
+        mode: currentMode === "generate" ? "generate" : "edit",
+        prompt,
+        width,
+        height
+      };
+
+      try {
+        showLoading(true);
+
+        if (currentMode === "transform") {
+          $("loadingText").textContent = "Preparing your photo and sending it to AI...";
+          payload.imageBase64 = await prepareImage(selectedFile);
         }
 
-        ctx.fillText(title,w/2,y+band*.68,w*.88);
+        const response = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        let data;
+
+        try {
+          data = await response.json();
+        } catch {
+          throw new Error("The server returned an invalid response. Please try again.");
+        }
+
+        if (!response.ok || !data.success || !data.image) {
+          throw new Error(
+            data.error || data.details || "AI generation failed. Please try again."
+          );
+        }
+
+        displayResult(data.image);
+
+      } catch (error) {
+        console.error("SwipePix AI:", error);
+
+        emptyState.style.display = "block";
+        resultImage.style.display = "none";
+        resultActions.style.display = "none";
+
+        showError(error.message || "Something went wrong. Please try again.");
+        $("resultLabel").textContent = "ERROR";
+
+      } finally {
+        showLoading(false);
       }
-
-      canvas.toBlob(blob=>{
-        if(blob)resolve(blob);
-        else reject(new Error("PNG export failed"));
-      },"image/png");
-
-    }catch(e){
-      reject(e);
-    }
-  });
-}
-
-async function downloadOne(index){
-  try{
-    say("Preparing PNG...");
-
-    const blob=await makeSlide(photos[index]);
-    const url=URL.createObjectURL(blob);
-
-    const a=document.createElement("a");
-    a.href=url;
-    a.download="swipepix-slide-"+(index+1)+".png";
-
-    document.body.append(a);
-    a.click();
-    a.remove();
-
-    setTimeout(()=>URL.revokeObjectURL(url),2000);
-
-    say("PNG downloaded successfully!");
-  }catch(e){
-    say(e.message);
-  }
-}
-
-$("zip").addEventListener("click",async()=>{
-  if(!photos.length)return;
-
-  if(typeof JSZip==="undefined"){
-    say("ZIP library failed to load. Check internet.");
-    return;
-  }
-
-  const btn=$("zip");
-  btn.disabled=true;
-  btn.textContent="Preparing ZIP...";
-
-  try{
-    const zip=new JSZip();
-
-    for(let i=0;i<photos.length;i++){
-      say("Creating slide "+(i+1)+" / "+photos.length);
-
-      const blob=await makeSlide(photos[i]);
-
-      zip.file(
-        "swipepix-slide-"+String(i+1).padStart(2,"0")+".png",
-        blob
-      );
-    }
-
-    const blob=await zip.generateAsync({type:"blob"});
-    const url=URL.createObjectURL(blob);
-
-    const a=document.createElement("a");
-    a.href=url;
-    a.download="swipepix-carousel.zip";
-
-    document.body.append(a);
-    a.click();
-    a.remove();
-
-    setTimeout(()=>URL.revokeObjectURL(url),2000);
-
-    say("ZIP downloaded successfully!");
-
-  }catch(e){
-    say("ZIP error: "+e.message);
-  }finally{
-    btn.disabled=!photos.length;
-    btn.textContent="⬇ Download All ZIP";
-  }
-});
-
-render();
-
-// Animated particle background
-(()=>{
-  const canvas=$("particles");
-  const ctx=canvas.getContext("2d");
-
-  let w,h,dots=[],raf=0;
-
-  const reduced=matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-
-  function resize(){
-    const dpr=Math.min(devicePixelRatio||1,1.5);
-
-    w=innerWidth;
-    h=innerHeight;
-
-    canvas.width=w*dpr;
-    canvas.height=h*dpr;
-
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-
-    dots=Array.from({length:40},()=>({
-      x:Math.random()*w,
-      y:Math.random()*h,
-      r:Math.random()*2+0.5,
-      speed:Math.random()*.3+.1
-    }));
-  }
-
-  function animate(){
-    ctx.clearRect(0,0,w,h);
-
-    dots.forEach(p=>{
-      p.y-=p.speed;
-
-      if(p.y<0){
-        p.y=h;
-        p.x=Math.random()*w;
-      }
-
-      ctx.fillStyle="#c76cff";
-      ctx.globalAlpha=.5;
-
-      ctx.beginPath();
-      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fill();
     });
 
-    ctx.globalAlpha=1;
+    // Download generated image
+    $("downloadBtn").addEventListener("click", () => {
+      if (!generatedImage) {
+        showError("Generate an image before downloading.");
+        return;
+      }
 
-    if(!document.hidden&&!reduced){
-      raf=requestAnimationFrame(animate);
-    }
-  }
+      const link = document.createElement("a");
+      link.href = generatedImage;
+      link.download = "swipepix-ai-" + Date.now() + ".png";
 
-  resize();
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    });
 
-  if(!reduced)animate();
+    // Create another image
+    $("newImageBtn").addEventListener("click", () => {
+      if (isGenerating) return;
 
-  window.addEventListener("resize",()=>{
-    cancelAnimationFrame(raf);
-    resize();
-    if(!reduced)animate();
-  });
+      generatedImage = null;
+      resultImage.removeAttribute("src");
+      resultImage.style.display = "none";
+      resultActions.style.display = "none";
+      emptyState.style.display = "block";
+      $("resultLabel").textContent = "PREVIEW";
+      clearError();
 
-  document.addEventListener("visibilitychange",()=>{
-    cancelAnimationFrame(raf);
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
 
-    if(!document.hidden&&!reduced){
+    // Animated background particles
+    (function initParticles() {
+      const canvas = $("particles");
+      const ctx = canvas.getContext("2d");
+
+      if (!ctx) return;
+
+      let particles = [];
+      let width = 0;
+      let height = 0;
+      let animationFrame;
+
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+        width = window.innerWidth;
+        height = window.innerHeight;
+
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        canvas.style.width = width + "px";
+        canvas.style.height = height + "px";
+
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        const count = Math.min(65, Math.floor(width / 18));
+
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 1.7 + .4,
+          speed: Math.random() * .35 + .08,
+          alpha: Math.random() * .5 + .15
+        }));
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        particles.forEach(particle => {
+          particle.y -= particle.speed;
+
+          if (particle.y < -5) {
+            particle.y = height + 5;
+            particle.x = Math.random() * width;
+          }
+
+          ctx.beginPath();
+          ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(190,155,255,${particle.alpha})`;
+          ctx.fill();
+        });
+
+        animationFrame = requestAnimationFrame(animate);
+      }
+
+      resize();
       animate();
-    }
-  });
-})();
-</script>
 
+      window.addEventListener("resize", () => {
+        cancelAnimationFrame(animationFrame);
+        resize();
+        animate();
+      });
+    })();
+  </script>
 </body>
 </html>
