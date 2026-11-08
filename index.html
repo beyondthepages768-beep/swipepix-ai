@@ -1,643 +1,724 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>SwipePix AI - Free TikTok Photo Swipe Maker</title>
-
-<meta name="description" content="Create beautiful TikTok photo swipe carousels for free. Upload, customize and download your photo slides instantly.">
-
-<meta name="theme-color" content="#0b0b12">
+<meta name="theme-color" content="#090914">
+<title>SwipePix AI — Photo Swipe Creator</title>
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Arial,sans-serif;
+  color:white;
+  background:radial-gradient(circle at top,#321044,#090914 55%);
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
-:root {
-  --pink: #ff4085;
-  --purple: #a855f7;
-  --blue: #36cfff;
-  --bg: #0b0b12;
+#particles{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:0;
 }
 
-html {
-  scroll-behavior: smooth;
+header,main,footer{position:relative;z-index:1}
+
+nav{
+  max-width:1100px;
+  margin:auto;
+  padding:22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-body {
-  min-height: 100vh;
-  overflow-x: hidden;
-  font-family: Arial, sans-serif;
-  background:
-    radial-gradient(ellipse at 20% 10%, #35133e 0%, transparent 40%),
-    radial-gradient(ellipse at 85% 65%, #171747 0%, transparent 40%),
-    var(--bg);
-  color: white;
+.logo{
+  font-size:25px;
+  font-weight:900;
+  background:linear-gradient(90deg,#ff4d91,#a855f7,#43d9ff);
+  color:transparent;
+  background-clip:text;
 }
 
-/* PARTICLE CANVAS */
-
-#particles {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
+.hero{
+  text-align:center;
+  padding:65px 18px 40px;
 }
 
-header, main, footer {
-  position: relative;
-  z-index: 1;
+.hero h1{
+  font-size:clamp(38px,7vw,68px);
+  margin:20px 0;
+  font-weight:900;
 }
 
-/* NAVBAR */
-
-nav {
-  max-width: 1100px;
-  margin: auto;
-  padding: 22px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.gradient{
+  background:linear-gradient(90deg,#ff4d91,#a855f7,#43d9ff);
+  background-clip:text;
+  color:transparent;
 }
 
-.logo {
-  font-size: 26px;
-  font-weight: 900;
-  background: linear-gradient(90deg,var(--pink),var(--purple),var(--blue));
-  background-size: 200% auto;
-  color: transparent;
-  background-clip: text;
-  animation: gradient 4s linear infinite;
+.hero p{
+  color:#aaa;
+  line-height:1.7;
+  max-width:600px;
+  margin:auto;
 }
 
-@keyframes gradient {
-  to { background-position: 200% center; }
+main{
+  max-width:950px;
+  padding:15px;
+  margin:auto;
 }
 
-.nav-btn {
-  text-decoration: none;
-  color: white;
-  background: #ffffff12;
-  border: 1px solid #ffffff25;
-  padding: 10px 17px;
-  border-radius: 30px;
+.panel{
+  background:#ffffff0c;
+  border:1px solid #ffffff20;
+  border-radius:20px;
+  padding:25px;
+  margin-bottom:20px;
+  backdrop-filter:blur(15px);
 }
 
-/* HERO */
+h2{margin-bottom:18px}
 
-.hero {
-  text-align: center;
-  padding: 65px 15px 45px;
+.drop{
+  display:block;
+  text-align:center;
+  padding:35px 15px;
+  border:2px dashed #ff4d91;
+  border-radius:15px;
+  cursor:pointer;
+  background:#ffffff08;
 }
 
-.tag {
-  display: inline-block;
-  padding: 9px 16px;
-  border-radius: 30px;
-  background: #ff40851a;
-  border: 1px solid #ff408555;
-  color: #ff8db7;
-  font-size: 13px;
-  margin-bottom: 25px;
+.drop input{display:none}
+
+.drop .emoji{
+  font-size:42px;
+  margin-bottom:12px;
 }
 
-.hero h1 {
-  font-size: clamp(34px,6vw,62px);
-  line-height: 1.15;
-  font-weight: 900;
+button{
+  border:0;
+  padding:12px 16px;
+  border-radius:10px;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  background:linear-gradient(90deg,#ff4d91,#a855f7);
+  transition:.2s;
 }
 
-.gradient-text {
-  background: linear-gradient(90deg,#ff4085,#a855f7,#36cfff);
-  color: transparent;
-  background-clip: text;
+button:hover{transform:translateY(-2px)}
+button:disabled{opacity:.4;cursor:not-allowed}
+
+.secondary{background:#ffffff18}
+.download{background:linear-gradient(90deg,#744cff,#19bce8)}
+
+input[type=text],select{
+  width:100%;
+  padding:14px;
+  margin:10px 0 18px;
+  background:#151525;
+  color:white;
+  border:1px solid #ffffff25;
+  border-radius:10px;
+  outline:none;
 }
 
-.hero p {
-  max-width: 600px;
-  margin: 20px auto;
-  line-height: 1.7;
-  color: #aaaabb;
-  font-size: 16px;
+label.field{
+  display:block;
+  font-size:14px;
+  font-weight:bold;
 }
 
-/* MAIN */
-
-main {
-  max-width: 950px;
-  padding: 15px;
-  margin: auto;
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:15px;
 }
 
-.panel {
-  background: #ffffff09;
-  border: 1px solid #ffffff1b;
-  border-radius: 20px;
-  padding: 25px;
-  margin-bottom: 22px;
-  backdrop-filter: blur(15px);
-  box-shadow: 0 15px 45px #00000025;
-  transition: .3s ease;
+.count,.hint{color:#aaa;font-size:13px}
+
+#slides{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:14px;
+  margin-top:20px;
 }
 
-.panel:hover {
-  border-color: #ff408566;
-  transform: translateY(-3px);
+.slide{
+  padding:9px;
+  border-radius:15px;
+  border:1px solid #ffffff25;
+  background:#10101d;
 }
 
-.panel h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
+.slide img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  border-radius:10px;
 }
 
-.step {
-  color: #ff70a8;
-  font-size: 12px;
-  letter-spacing: 2px;
-  margin-bottom: 9px;
-  font-weight: bold;
+.slidehead{
+  display:flex;
+  justify-content:space-between;
+  gap:5px;
+  margin:10px 0;
+  font-size:12px;
 }
 
-/* UPLOAD */
-
-.upload {
-  display: block;
-  text-align: center;
-  padding: 40px 15px;
-  border: 2px dashed #ffffff40;
-  border-radius: 15px;
-  cursor: pointer;
-  background: #ffffff05;
-  transition: .3s;
+.slidehead span:last-child{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#aaa;
 }
 
-.upload:hover {
-  background: #ff408510;
-  border-color: var(--pink);
+.actions{
+  display:flex;
+  gap:5px;
+  flex-wrap:wrap;
 }
 
-.upload-icon {
-  font-size: 43px;
-  margin-bottom: 12px;
+.actions button{
+  flex:1;
+  padding:9px 5px;
+  font-size:11px;
 }
 
-.upload input {
-  display: none;
+.empty{
+  grid-column:1/-1;
+  text-align:center;
+  padding:30px;
+  color:#aaa;
+  border:1px dashed #ffffff30;
+  border-radius:12px;
 }
 
-.muted {
-  color: #9999ac;
-  font-size: 13px;
-  margin-top: 9px;
+.status{
+  color:#43d9ff;
+  margin-top:12px;
+  font-size:13px;
 }
 
-/* INPUT */
-
-input[type="text"] {
-  width: 100%;
-  padding: 15px;
-  border-radius: 10px;
-  border: 1px solid #ffffff25;
-  outline: none;
-  background: #090912;
-  color: white;
-  margin-top: 12px;
-  font-size: 15px;
+footer{
+  text-align:center;
+  color:#888;
+  padding:30px;
+  font-size:13px;
 }
 
-input:focus {
-  border-color: var(--pink);
+@media(max-width:600px){
+  .hero{padding:40px 15px}
+  .hero h1{font-size:42px}
+  .panel{padding:17px}
+  #slides{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+  .toolbar button{flex:1}
 }
 
-/* BUTTONS */
-
-button {
-  padding: 12px 17px;
-  margin: 5px 4px 5px 0;
-  border: none;
-  border-radius: 9px;
-  cursor: pointer;
-  color: white;
-  font-weight: bold;
-  background: linear-gradient(90deg,#ff4085,#a855f7);
-  transition: .25s;
-}
-
-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 5px 22px #ff408555;
-}
-
-.secondary {
-  background: #ffffff17;
-  border: 1px solid #ffffff20;
-}
-
-.download {
-  background: linear-gradient(90deg,#a855f7,#36cfff);
-}
-
-/* SLIDES */
-
-#slides {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(155px,1fr));
-  gap: 15px;
-  margin-top: 20px;
-}
-
-.slide {
-  background: #ffffff0b;
-  border: 1px solid #ffffff17;
-  border-radius: 13px;
-  padding: 9px;
-  overflow: hidden;
-  transition: .3s;
-}
-
-.slide:hover {
-  transform: translateY(-6px);
-  border-color: var(--pink);
-}
-
-.slide img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 3/4;
-  object-fit: cover;
-  border-radius: 9px;
-}
-
-.slide p {
-  font-size: 13px;
-  margin: 10px 0;
-}
-
-.slide button {
-  font-size: 11px;
-  padding: 9px;
-}
-
-.slide-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-/* FOOTER */
-
-footer {
-  text-align: center;
-  padding: 40px 15px;
-  color: #88889c;
-  font-size: 13px;
-  line-height: 2;
-}
-
-@media(max-width:600px) {
-  .hero {
-    padding-top: 45px;
-  }
-
-  .panel {
-    padding: 17px;
-  }
-
-  #slides {
-    grid-template-columns: repeat(2,minmax(0,1fr));
-  }
-
-  nav {
-    padding: 17px;
-  }
-}
-
-@media(prefers-reduced-motion:reduce) {
-  *,*::before,*::after {
-    animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
-  }
+@media(prefers-reduced-motion:reduce){
+  *{scroll-behavior:auto!important;transition:none!important}
 }
 </style>
 </head>
 
 <body>
 
-<canvas id="particles" aria-hidden="true"></canvas>
+<canvas id="particles"></canvas>
 
 <nav>
-  <div class="logo">✨ SwipePix AI</div>
-  <a href="#editor" class="nav-btn">Create Now ↗</a>
+  <div class="logo">✦ SwipePix AI</div>
+  <a href="#editor" style="color:white;text-decoration:none">Open Creator ↗</a>
 </nav>
 
 <header class="hero">
-  <div class="tag">✦ FREE TIKTOK PHOTO CAROUSEL MAKER</div>
-
-  <h1>
-    Create Stunning<br>
-    <span class="gradient-text">Photo Swipe Slides</span>
-  </h1>
-
-  <p>
-    Turn your favorite photos into beautiful TikTok-style
-    swipe carousels. Upload, customize and download
-    your slides in seconds.
-  </p>
+  <span>✦ FREE PHOTO CAROUSEL CREATOR</span>
+  <h1>Make Photos<br><span class="gradient">Swipe-Worthy.</span></h1>
+  <p>Create beautiful TikTok-style photo carousels.
+  Upload, arrange and download your slides for free.</p>
 </header>
 
 <main id="editor">
 
 <section class="panel">
-  <div class="step">STEP 01</div>
-  <h2>📸 Upload Your Photos</h2>
+  <h2>📸 Upload Photos</h2>
 
-  <label class="upload">
-    <div class="upload-icon">🖼️</div>
-    <strong>Click to Upload Multiple Photos</strong>
-    <p class="muted">JPG, PNG and WebP supported</p>
-    <p class="muted">Your images stay in your browser.</p>
-    <input type="file" id="files" accept="image/jpeg,image/png,image/webp" multiple>
+  <label class="drop" id="drop">
+    <div class="emoji">🖼️</div>
+    <strong>Tap to upload or drag photos here</strong>
+    <p class="hint">JPG, PNG and WebP · Maximum 20 photos</p>
+    <input id="files" type="file" accept="image/jpeg,image/png,image/webp" multiple>
   </label>
 
-  <p class="muted" id="count">No photos selected yet.</p>
+  <div class="toolbar">
+    <span class="count" id="count">0 / 20 photos</span>
+    <button class="secondary" id="clear">Clear All</button>
+  </div>
 </section>
 
 <section class="panel">
-  <div class="step">STEP 02</div>
-  <h2>🎨 Customize Your Carousel</h2>
+  <h2>🎨 Customize</h2>
 
-  <label for="heading">Carousel Title</label>
-  <input type="text" id="heading" maxlength="45"
-    placeholder="My Amazing Photo Collection">
+  <label class="field" for="heading">Photo Title</label>
+  <input id="heading" type="text" maxlength="60"
+    placeholder="A little moment worth sharing">
 
-  <br><br>
+  <label class="field" for="format">Image Format</label>
+  <select id="format">
+    <option value="3:4">Portrait 1080 × 1440</option>
+    <option value="9:16">Full Screen 1080 × 1920</option>
+    <option value="1:1">Square 1080 × 1080</option>
+  </select>
 
-  <button onclick="render()">✨ Generate Slides</button>
-  <button class="secondary" onclick="clearAll()">Clear All</button>
+  <p class="hint">Drag slides to reorder or use the arrow buttons.</p>
 </section>
 
 <section class="panel">
-  <div class="step">STEP 03</div>
   <h2>🚀 Preview & Download</h2>
 
-  <p class="muted">
-    Preview your slides and download each image separately.
-  </p>
+  <div class="toolbar">
+    <span class="count">Your carousel slides</span>
+    <button class="download" id="zip" disabled>
+      ⬇ Download All ZIP
+    </button>
+  </div>
 
-  <div id="slides"></div>
+  <div id="slides">
+    <div class="empty">Upload photos to get started.</div>
+  </div>
+
+  <div class="status" id="status"></div>
 </section>
 
 </main>
 
 <footer>
-  <div class="logo">SwipePix AI ✨</div>
-  <p>Create. Swipe. Share.</p>
-  <p>© 2026 SwipePix AI. All rights reserved.</p>
+  <div class="logo">SwipePix AI ✦</div>
+  Create. Swipe. Share.<br>
+  Your photos stay in your browser.
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
 <script>
-/* PARTICLE ANIMATION */
-
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-
-let dots = [];
-let width = 0;
-let height = 0;
-let animationFrame;
-
-function resizeCanvas() {
-  const ratio = Math.min(window.devicePixelRatio || 1, 2);
-  width = window.innerWidth;
-  height = window.innerHeight;
-
-  canvas.width = width * ratio;
-  canvas.height = height * ratio;
-
-  ctx.setTransform(ratio,0,0,ratio,0,0);
-
-  const amount = Math.min(65,Math.max(25,Math.floor(width/15)));
-
-  dots = Array.from({length:amount},()=>({
-    x:Math.random()*width,
-    y:Math.random()*height,
-    r:Math.random()*2+0.5,
-    speed:Math.random()*0.35+0.12,
-    color:["#ff4085","#a855f7","#36cfff"][
-      Math.floor(Math.random()*3)
-    ]
-  }));
-}
-
-function animateParticles() {
-  ctx.clearRect(0,0,width,height);
-
-  dots.forEach(p=>{
-    p.y -= p.speed;
-    p.x += Math.sin(p.y*0.01)*0.12;
-
-    if(p.y < -5) {
-      p.y = height+5;
-      p.x = Math.random()*width;
-    }
-
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-    ctx.fillStyle=p.color;
-    ctx.globalAlpha=0.65;
-    ctx.fill();
-  });
-
-  ctx.globalAlpha=1;
-
-  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    animationFrame=requestAnimationFrame(animateParticles);
-  }
-}
-
-resizeCanvas();
-animateParticles();
-
-window.addEventListener("resize",()=>{
-  resizeCanvas();
-  if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    cancelAnimationFrame(animationFrame);
-    animateParticles();
-  }
-});
-
-/* PHOTO EDITOR */
+const $=id=>document.getElementById(id);
+const MAX=20;
+const LIMIT=15*1024*1024;
 
 let photos=[];
-const fileInput=document.getElementById("files");
+let dragIndex=null;
 
-fileInput.addEventListener("change",async()=>{
-  const selected=[...fileInput.files];
+function say(text){
+  $("status").textContent=text;
+}
 
-  for(const file of selected) {
-    if(!file.type.startsWith("image/")) continue;
+function loadImage(file){
+  return new Promise((resolve,reject)=>{
+    const url=URL.createObjectURL(file);
+    const img=new Image();
 
-    if(photos.length>=20) {
-      alert("Maximum 20 photos allowed.");
+    img.onload=()=>resolve({file,url,img});
+    img.onerror=()=>{
+      URL.revokeObjectURL(url);
+      reject(new Error("Image loading failed"));
+    };
+
+    img.src=url;
+  });
+}
+
+async function addFiles(files){
+  let added=0;
+
+  for(const file of [...files]){
+    if(photos.length>=MAX){
+      say("Maximum 20 photos allowed.");
       break;
     }
 
-    if(file.size>10*1024*1024) {
-      alert(file.name+" is larger than 10 MB.");
+    if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
       continue;
     }
 
-    const src=await new Promise((resolve,reject)=>{
-      const reader=new FileReader();
-      reader.onload=()=>resolve(reader.result);
-      reader.onerror=reject;
-      reader.readAsDataURL(file);
-    });
+    if(file.size>LIMIT){
+      say(file.name+" is larger than 15 MB.");
+      continue;
+    }
 
-    photos.push({src,name:file.name});
+    try{
+      photos.push(await loadImage(file));
+      added++;
+    }catch(e){
+      say(e.message);
+    }
   }
 
-  fileInput.value="";
   render();
+
+  if(added) say(added+" photos added successfully!");
+}
+
+$("files").addEventListener("change",e=>{
+  addFiles(e.target.files);
+  e.target.value="";
 });
 
-function render() {
-  const container=document.getElementById("slides");
+const drop=$("drop");
 
-  document.getElementById("count").textContent=
-    photos.length+" / 20 photos selected";
+["dragenter","dragover"].forEach(type=>{
+  drop.addEventListener(type,e=>{
+    e.preventDefault();
+    drop.style.background="#ff4d9122";
+  });
+});
 
-  container.innerHTML="";
+["dragleave","drop"].forEach(type=>{
+  drop.addEventListener(type,e=>{
+    e.preventDefault();
+    drop.style.background="";
+  });
+});
 
-  photos.forEach((photo,index)=>{
+drop.addEventListener("drop",e=>{
+  addFiles(e.dataTransfer.files);
+});
+
+$("clear").addEventListener("click",()=>{
+  photos.forEach(p=>URL.revokeObjectURL(p.url));
+  photos=[];
+  render();
+  say("All photos cleared.");
+});
+
+function move(from,to){
+  if(to<0||to>=photos.length)return;
+
+  const item=photos.splice(from,1)[0];
+  photos.splice(to,0,item);
+
+  render();
+}
+
+function removeOne(index){
+  URL.revokeObjectURL(photos[index].url);
+  photos.splice(index,1);
+  render();
+  say("Photo removed.");
+}
+
+function render(){
+  $("count").textContent=photos.length+" / 20 photos";
+  $("zip").disabled=!photos.length;
+
+  const root=$("slides");
+  root.replaceChildren();
+
+  if(!photos.length){
+    const empty=document.createElement("div");
+    empty.className="empty";
+    empty.textContent="Upload photos to get started.";
+    root.append(empty);
+    return;
+  }
+
+  photos.forEach((photo,i)=>{
     const card=document.createElement("div");
     card.className="slide";
+    card.draggable=true;
 
     const img=document.createElement("img");
-    img.src=photo.src;
-    img.alt="Carousel photo "+(index+1);
+    img.src=photo.url;
+    img.alt="Slide "+(i+1);
 
-    const label=document.createElement("p");
-    label.textContent="Slide "+(index+1);
+    const head=document.createElement("div");
+    head.className="slidehead";
+
+    const number=document.createElement("span");
+    number.textContent="SLIDE "+(i+1);
+
+    const name=document.createElement("span");
+    name.textContent=photo.file.name;
+    name.title=photo.file.name;
+
+    head.append(number,name);
 
     const actions=document.createElement("div");
-    actions.className="slide-actions";
+    actions.className="actions";
 
-    const download=document.createElement("button");
-    download.className="download";
-    download.textContent="⬇ Download";
-    download.onclick=()=>downloadSlide(index);
+    function makeButton(text,cls,fn,disabled=false){
+      const b=document.createElement("button");
+      b.textContent=text;
+      b.className=cls;
+      b.disabled=disabled;
+      b.onclick=fn;
+      return b;
+    }
 
-    const remove=document.createElement("button");
-    remove.className="secondary";
-    remove.textContent="✕ Remove";
-    remove.onclick=()=>{
-      photos.splice(index,1);
-      render();
-    };
+    actions.append(
+      makeButton("↓ PNG","download",()=>downloadOne(i)),
+      makeButton("↑","secondary",()=>move(i,i-1),i===0),
+      makeButton("↓","secondary",()=>move(i,i+1),i===photos.length-1),
+      makeButton("✕","secondary",()=>removeOne(i))
+    );
 
-    const up=document.createElement("button");
-    up.className="secondary";
-    up.textContent="↑";
-    up.disabled=index===0;
-    up.onclick=()=>movePhoto(index,-1);
+    card.append(img,head,actions);
 
-    const down=document.createElement("button");
-    down.className="secondary";
-    down.textContent="↓";
-    down.disabled=index===photos.length-1;
-    down.onclick=()=>movePhoto(index,1);
+    card.addEventListener("dragstart",e=>{
+      dragIndex=i;
+      e.dataTransfer.effectAllowed="move";
+    });
 
-    actions.append(download,remove,up,down);
-    card.append(img,label,actions);
-    container.append(card);
+    card.addEventListener("dragover",e=>e.preventDefault());
+
+    card.addEventListener("drop",e=>{
+      e.preventDefault();
+      if(dragIndex!==null&&dragIndex!==i){
+        move(dragIndex,i);
+      }
+      dragIndex=null;
+    });
+
+    root.append(card);
   });
 }
 
-function movePhoto(index,direction) {
-  const target=index+direction;
+function dimensions(){
+  const format=$("format").value;
 
-  if(target<0 || target>=photos.length) return;
+  if(format==="9:16")return [1080,1920];
+  if(format==="1:1")return [1080,1080];
 
-  [photos[index],photos[target]]=
-  [photos[target],photos[index]];
-
-  render();
+  return [1080,1440];
 }
 
-function clearAll() {
-  if(photos.length && !confirm("Remove all photos?")) return;
+function makeSlide(photo){
+  return new Promise((resolve,reject)=>{
+    try{
+      const [w,h]=dimensions();
+      const canvas=document.createElement("canvas");
 
-  photos=[];
-  render();
+      canvas.width=w;
+      canvas.height=h;
+
+      const ctx=canvas.getContext("2d");
+
+      const scale=Math.max(
+        w/photo.img.naturalWidth,
+        h/photo.img.naturalHeight
+      );
+
+      const sw=photo.img.naturalWidth*scale;
+      const sh=photo.img.naturalHeight*scale;
+
+      ctx.fillStyle="#111";
+      ctx.fillRect(0,0,w,h);
+
+      ctx.drawImage(
+        photo.img,
+        (w-sw)/2,
+        (h-sh)/2,
+        sw,
+        sh
+      );
+
+      const title=$("heading").value.trim();
+
+      if(title){
+        const band=h*.17;
+        const y=h-band;
+
+        const grad=ctx.createLinearGradient(0,y,0,h);
+
+        grad.addColorStop(0,"rgba(0,0,0,0)");
+        grad.addColorStop(1,"rgba(0,0,0,.85)");
+
+        ctx.fillStyle=grad;
+        ctx.fillRect(0,y,w,band);
+
+        let size=w*.047;
+
+        ctx.fillStyle="#fff";
+        ctx.textAlign="center";
+        ctx.textBaseline="middle";
+        ctx.font="bold "+size+"px Arial";
+
+        while(ctx.measureText(title).width>w*.88&&size>18){
+          size-=2;
+          ctx.font="bold "+size+"px Arial";
+        }
+
+        ctx.fillText(title,w/2,y+band*.68,w*.88);
+      }
+
+      canvas.toBlob(blob=>{
+        if(blob)resolve(blob);
+        else reject(new Error("PNG export failed"));
+      },"image/png");
+
+    }catch(e){
+      reject(e);
+    }
+  });
 }
 
-/* DOWNLOAD IMAGE */
+async function downloadOne(index){
+  try{
+    say("Preparing PNG...");
 
-function downloadSlide(index) {
-  const photo=photos[index];
-  if(!photo) return;
+    const blob=await makeSlide(photos[index]);
+    const url=URL.createObjectURL(blob);
 
-  const img=new Image();
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="swipepix-slide-"+(index+1)+".png";
 
-  img.onload=()=>{
-    const canvas=document.createElement("canvas");
-    canvas.width=1080;
-    canvas.height=1440;
+    document.body.append(a);
+    a.click();
+    a.remove();
 
-    const context=canvas.getContext("2d");
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
 
-    const scale=Math.max(
-      1080/img.width,
-      1440/img.height
-    );
+    say("PNG downloaded successfully!");
+  }catch(e){
+    say(e.message);
+  }
+}
 
-    const w=img.width*scale;
-    const h=img.height*scale;
+$("zip").addEventListener("click",async()=>{
+  if(!photos.length)return;
 
-    context.drawImage(
-      img,
-      (1080-w)/2,
-      (1440-h)/2,
-      w,h
-    );
+  if(typeof JSZip==="undefined"){
+    say("ZIP library failed to load. Check internet.");
+    return;
+  }
 
-    const title=document.getElementById("heading").value.trim();
+  const btn=$("zip");
+  btn.disabled=true;
+  btn.textContent="Preparing ZIP...";
 
-    if(title) {
-      const gradient=context.createLinearGradient(0,1280,0,1440);
-      gradient.addColorStop(0,"rgba(0,0,0,0)");
-      gradient.addColorStop(1,"rgba(0,0,0,0.85)");
+  try{
+    const zip=new JSZip();
 
-      context.fillStyle=gradient;
-      context.fillRect(0,1250,1080,190);
+    for(let i=0;i<photos.length;i++){
+      say("Creating slide "+(i+1)+" / "+photos.length);
 
-      context.fillStyle="#ffffff";
-      context.font="bold 46px Arial";
-      context.textAlign="center";
-      context.fillText(title,540,1370,990);
+      const blob=await makeSlide(photos[i]);
+
+      zip.file(
+        "swipepix-slide-"+String(i+1).padStart(2,"0")+".png",
+        blob
+      );
     }
 
-    const link=document.createElement("a");
-    link.download="swipepix-slide-"+(index+1)+".png";
-    link.href=canvas.toDataURL("image/png");
-    link.click();
-  };
+    const blob=await zip.generateAsync({type:"blob"});
+    const url=URL.createObjectURL(blob);
 
-  img.onerror=()=>alert("Could not process this image.");
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="swipepix-carousel.zip";
 
-  img.src=photo.src;
-}
+    document.body.append(a);
+    a.click();
+    a.remove();
+
+    setTimeout(()=>URL.revokeObjectURL(url),2000);
+
+    say("ZIP downloaded successfully!");
+
+  }catch(e){
+    say("ZIP error: "+e.message);
+  }finally{
+    btn.disabled=!photos.length;
+    btn.textContent="⬇ Download All ZIP";
+  }
+});
 
 render();
+
+// Animated particle background
+(()=>{
+  const canvas=$("particles");
+  const ctx=canvas.getContext("2d");
+
+  let w,h,dots=[],raf=0;
+
+  const reduced=matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  function resize(){
+    const dpr=Math.min(devicePixelRatio||1,1.5);
+
+    w=innerWidth;
+    h=innerHeight;
+
+    canvas.width=w*dpr;
+    canvas.height=h*dpr;
+
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+
+    dots=Array.from({length:40},()=>({
+      x:Math.random()*w,
+      y:Math.random()*h,
+      r:Math.random()*2+0.5,
+      speed:Math.random()*.3+.1
+    }));
+  }
+
+  function animate(){
+    ctx.clearRect(0,0,w,h);
+
+    dots.forEach(p=>{
+      p.y-=p.speed;
+
+      if(p.y<0){
+        p.y=h;
+        p.x=Math.random()*w;
+      }
+
+      ctx.fillStyle="#c76cff";
+      ctx.globalAlpha=.5;
+
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fill();
+    });
+
+    ctx.globalAlpha=1;
+
+    if(!document.hidden&&!reduced){
+      raf=requestAnimationFrame(animate);
+    }
+  }
+
+  resize();
+
+  if(!reduced)animate();
+
+  window.addEventListener("resize",()=>{
+    cancelAnimationFrame(raf);
+    resize();
+    if(!reduced)animate();
+  });
+
+  document.addEventListener("visibilitychange",()=>{
+    cancelAnimationFrame(raf);
+
+    if(!document.hidden&&!reduced){
+      animate();
+    }
+  });
+})();
 </script>
 
 </body>
