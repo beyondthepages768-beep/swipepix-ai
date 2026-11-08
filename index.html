@@ -1,565 +1,523 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#080914">
+
   <title>SwipePix AI — Create. Transform. Swipe.</title>
   <meta name="description" content="Create stunning AI images and transform your photos with SwipePix AI.">
+
+  <!-- Google Search Console Verification -->
+  <meta name="google-site-verification" content="AO2O_o338EqqipoOih84xfTqo6ek-X5IMTivEX13cTw" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #080914;
-      --panel: rgba(20, 22, 43, .82);
-      --panel2: #15172b;
-      --text: #f5f5ff;
-      --muted: #9b9db8;
-      --purple: #9b6cff;
-      --pink: #ff65b5;
-      --cyan: #54dfff;
-      --border: rgba(255,255,255,.1);
-      --radius: 20px;
+      --bg:#080914;
+      --panel:rgba(20,22,43,.82);
+      --text:#f5f5ff;
+      --muted:#9b9db8;
+      --purple:#9b6cff;
+      --pink:#ff65b5;
+      --border:rgba(255,255,255,.1);
     }
 
-    * { box-sizing: border-box; }
+    * {box-sizing:border-box}
 
     body {
-      margin: 0;
-      min-height: 100vh;
-      color: var(--text);
+      margin:0;
+      min-height:100vh;
+      color:var(--text);
       background:
-        radial-gradient(ellipse at 10% 10%, rgba(111,65,210,.18), transparent 38%),
-        radial-gradient(ellipse at 90% 30%, rgba(37,161,200,.12), transparent 35%),
+        radial-gradient(ellipse at 10% 10%,rgba(111,65,210,.18),transparent 38%),
+        radial-gradient(ellipse at 90% 30%,rgba(37,161,200,.12),transparent 35%),
         var(--bg);
-      font-family: "DM Sans", sans-serif;
-      overflow-x: hidden;
+      font-family:"DM Sans",sans-serif;
+      overflow-x:hidden;
     }
 
     #particles {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:-1;
+      pointer-events:none;
     }
 
-    button, input, textarea, select { font: inherit; }
-
-    button { cursor: pointer; }
+    button,input,textarea,select {font:inherit}
+    button {cursor:pointer}
 
     .container {
-      width: min(1120px, calc(100% - 36px));
-      margin: auto;
+      width:min(1120px,calc(100% - 36px));
+      margin:auto;
     }
 
     header {
-      height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--border);
+      height:76px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom:1px solid var(--border);
     }
 
     .logo {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      font: 700 23px "Space Grotesk", sans-serif;
-      letter-spacing: -1px;
+      display:flex;
+      align-items:center;
+      gap:11px;
+      font:700 23px "Space Grotesk",sans-serif;
+      letter-spacing:-1px;
     }
 
     .logo-icon {
-      width: 39px;
-      height: 39px;
-      display: grid;
-      place-items: center;
-      border-radius: 13px;
-      background: linear-gradient(135deg, var(--purple), var(--pink));
-      box-shadow: 0 0 25px rgba(155,108,255,.3);
-      font-size: 21px;
+      width:39px;
+      height:39px;
+      display:grid;
+      place-items:center;
+      border-radius:13px;
+      background:linear-gradient(135deg,var(--purple),var(--pink));
+      font-size:21px;
     }
 
-    .logo span { color: #c19aff; }
-
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .logo span {color:#c19aff}
 
     .status {
-      color: #9fffd2;
-      background: rgba(48,210,145,.1);
-      border: 1px solid rgba(48,210,145,.2);
-      padding: 8px 12px;
-      border-radius: 30px;
-      font-size: 12px;
+      color:#9fffd2;
+      background:rgba(48,210,145,.1);
+      border:1px solid rgba(48,210,145,.2);
+      padding:8px 12px;
+      border-radius:30px;
+      font-size:12px;
     }
 
     .hero {
-      text-align: center;
-      padding: 62px 10px 38px;
+      text-align:center;
+      padding:62px 10px 38px;
     }
 
     .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 13px;
-      border: 1px solid rgba(180,140,255,.25);
-      background: rgba(155,108,255,.09);
-      color: #d3baff;
-      border-radius: 40px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .6px;
+      display:inline-flex;
+      padding:8px 13px;
+      border:1px solid rgba(180,140,255,.25);
+      background:rgba(155,108,255,.09);
+      color:#d3baff;
+      border-radius:40px;
+      font-size:12px;
+      font-weight:700;
     }
 
     .hero h1 {
-      font: 700 clamp(36px, 6vw, 66px)/1.08 "Space Grotesk", sans-serif;
-      letter-spacing: -3px;
-      margin: 22px 0 14px;
+      font:700 clamp(36px,6vw,66px)/1.08 "Space Grotesk",sans-serif;
+      letter-spacing:-3px;
+      margin:22px 0 14px;
     }
 
     .gradient-text {
-      background: linear-gradient(90deg, #bd9aff, #ff83c5, #63ddff);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      background:linear-gradient(90deg,#bd9aff,#ff83c5,#63ddff);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
     }
 
     .hero p {
-      color: var(--muted);
-      max-width: 570px;
-      margin: auto;
-      line-height: 1.7;
-      font-size: 15px;
+      color:var(--muted);
+      max-width:570px;
+      margin:auto;
+      line-height:1.7;
+      font-size:15px;
     }
 
     .workspace {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, .9fr);
-      gap: 20px;
-      align-items: start;
-      padding-bottom: 65px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(0,.9fr);
+      gap:20px;
+      align-items:start;
+      padding-bottom:65px;
     }
 
     .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 23px;
-      backdrop-filter: blur(18px);
-      box-shadow: 0 15px 55px rgba(0,0,0,.2);
-      min-width: 0;
+      background:var(--panel);
+      border:1px solid var(--border);
+      border-radius:20px;
+      padding:23px;
+      backdrop-filter:blur(18px);
+      box-shadow:0 15px 55px rgba(0,0,0,.2);
+      min-width:0;
     }
 
     .panel-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:20px;
     }
 
     .panel-heading h2 {
-      margin: 0;
-      font: 700 19px "Space Grotesk", sans-serif;
+      margin:0;
+      font:700 19px "Space Grotesk",sans-serif;
     }
 
     .small-label {
-      font-size: 11px;
-      color: #c6aaff;
-      background: rgba(155,108,255,.12);
-      padding: 6px 9px;
-      border-radius: 20px;
+      font-size:11px;
+      color:#c6aaff;
+      background:rgba(155,108,255,.12);
+      padding:6px 9px;
+      border-radius:20px;
     }
 
     .tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 7px;
-      padding: 6px;
-      background: rgba(0,0,0,.23);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      margin-bottom: 23px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:7px;
+      padding:6px;
+      background:rgba(0,0,0,.23);
+      border:1px solid var(--border);
+      border-radius:14px;
+      margin-bottom:23px;
     }
 
     .tab {
-      color: var(--muted);
-      background: transparent;
-      border: 0;
-      padding: 12px 7px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 700;
-      transition: .2s;
+      color:var(--muted);
+      background:transparent;
+      border:0;
+      padding:12px 7px;
+      border-radius:10px;
+      font-size:13px;
+      font-weight:700;
     }
 
     .tab.active {
-      color: white;
-      background: linear-gradient(110deg, #7950d9, #a45bd9);
-      box-shadow: 0 5px 20px rgba(137,83,220,.25);
+      color:white;
+      background:linear-gradient(110deg,#7950d9,#a45bd9);
     }
 
     .field-label {
-      display: block;
-      margin: 17px 0 9px;
-      font-size: 13px;
-      font-weight: 700;
+      display:block;
+      margin:17px 0 9px;
+      font-size:13px;
+      font-weight:700;
     }
 
-    textarea, select {
-      width: 100%;
-      color: white;
-      background: rgba(4,5,17,.65);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      outline: none;
-      padding: 14px;
-      transition: .2s;
+    textarea,select {
+      width:100%;
+      color:white;
+      background:rgba(4,5,17,.65);
+      border:1px solid var(--border);
+      border-radius:12px;
+      outline:none;
+      padding:14px;
     }
 
     textarea {
-      min-height: 125px;
-      resize: vertical;
-      line-height: 1.6;
+      min-height:125px;
+      resize:vertical;
+      line-height:1.6;
     }
 
-    textarea:focus, select:focus {
-      border-color: var(--purple);
-      box-shadow: 0 0 0 3px rgba(155,108,255,.1);
+    textarea:focus,select:focus {
+      border-color:var(--purple);
+      box-shadow:0 0 0 3px rgba(155,108,255,.1);
     }
 
-    textarea::placeholder { color: #777991; }
-
-    select { cursor: pointer; }
-    select option { background: #15172b; }
+    textarea::placeholder {color:#777991}
+    select {cursor:pointer}
+    select option {background:#15172b}
 
     .presets {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
     }
 
     .preset {
-      color: #c9c7e3;
-      background: rgba(255,255,255,.045);
-      border: 1px solid var(--border);
-      padding: 8px 11px;
-      border-radius: 30px;
-      font-size: 11px;
-      transition: .2s;
+      color:#c9c7e3;
+      background:rgba(255,255,255,.045);
+      border:1px solid var(--border);
+      padding:8px 11px;
+      border-radius:30px;
+      font-size:11px;
     }
 
     .preset:hover {
-      border-color: var(--purple);
-      color: white;
-      background: rgba(155,108,255,.12);
+      border-color:var(--purple);
+      color:white;
+      background:rgba(155,108,255,.12);
     }
 
     .upload-area {
-      border: 1.5px dashed rgba(177,142,255,.4);
-      background: rgba(155,108,255,.055);
-      border-radius: 15px;
-      padding: 23px 15px;
-      text-align: center;
-      cursor: pointer;
-      transition: .2s;
+      border:1.5px dashed rgba(177,142,255,.4);
+      background:rgba(155,108,255,.055);
+      border-radius:15px;
+      padding:23px 15px;
+      text-align:center;
+      cursor:pointer;
+      transition:.2s;
     }
 
-    .upload-area:hover, .upload-area.dragover {
-      border-color: var(--pink);
-      background: rgba(155,108,255,.12);
+    .upload-area:hover,.upload-area.dragover {
+      border-color:var(--pink);
+      background:rgba(155,108,255,.12);
     }
 
-    .upload-icon {
-      font-size: 30px;
-      margin-bottom: 9px;
-    }
-
-    .upload-area strong {
-      display: block;
-      font-size: 13px;
-      margin-bottom: 6px;
-    }
-
-    .upload-area small {
-      color: var(--muted);
-      font-size: 11px;
-    }
-
-    #photoInput { display: none; }
+    .upload-icon {font-size:30px;margin-bottom:9px}
+    .upload-area strong {display:block;font-size:13px;margin-bottom:6px}
+    .upload-area small {color:var(--muted);font-size:11px}
+    #photoInput {display:none}
 
     .upload-preview {
-      display: none;
-      margin-top: 12px;
-      position: relative;
-      border-radius: 13px;
-      overflow: hidden;
-      background: #080914;
+      display:none;
+      margin-top:12px;
+      position:relative;
+      border-radius:13px;
+      overflow:hidden;
+      background:#080914;
     }
 
     .upload-preview img {
-      display: block;
-      width: 100%;
-      max-height: 220px;
-      object-fit: contain;
+      display:block;
+      width:100%;
+      max-height:220px;
+      object-fit:contain;
     }
 
     .remove-photo {
-      position: absolute;
-      right: 9px;
-      top: 9px;
-      color: white;
-      border: 0;
-      border-radius: 30px;
-      padding: 7px 10px;
-      background: rgba(0,0,0,.75);
-      font-size: 12px;
+      position:absolute;
+      right:9px;
+      top:9px;
+      color:white;
+      border:0;
+      border-radius:30px;
+      padding:7px 10px;
+      background:rgba(0,0,0,.75);
+      font-size:12px;
     }
 
     .options-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
     }
 
     .primary-btn {
-      width: 100%;
-      margin-top: 22px;
-      padding: 15px 18px;
-      border: 0;
-      border-radius: 13px;
-      color: white;
-      font-weight: 800;
-      font-size: 14px;
-      background: linear-gradient(105deg, #8555e8, #d45cba);
-      box-shadow: 0 8px 25px rgba(155,85,220,.25);
-      transition: .2s;
+      width:100%;
+      margin-top:22px;
+      padding:15px 18px;
+      border:0;
+      border-radius:13px;
+      color:white;
+      font-weight:800;
+      font-size:14px;
+      background:linear-gradient(105deg,#8555e8,#d45cba);
+      box-shadow:0 8px 25px rgba(155,85,220,.25);
+      transition:.2s;
     }
 
-    .primary-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(155,85,220,.4);
-    }
-
-    .primary-btn:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-      transform: none;
-    }
+    .primary-btn:hover {transform:translateY(-2px)}
+    .primary-btn:disabled {opacity:.55;cursor:not-allowed;transform:none}
 
     .privacy-note {
-      text-align: center;
-      color: var(--muted);
-      font-size: 11px;
-      line-height: 1.6;
-      margin: 13px 0 0;
+      text-align:center;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.6;
+      margin:13px 0 0;
     }
 
     .result-panel {
-      min-height: 560px;
-      display: flex;
-      flex-direction: column;
+      min-height:560px;
+      display:flex;
+      flex-direction:column;
     }
 
     .result-stage {
-      min-height: 420px;
-      flex: 1;
-      border: 1px solid var(--border);
-      border-radius: 15px;
-      background:
-        linear-gradient(45deg, rgba(255,255,255,.025) 25%, transparent 25%),
-        linear-gradient(-45deg, rgba(255,255,255,.025) 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, rgba(255,255,255,.025) 75%),
-        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,.025) 75%),
-        #0c0d1b;
-      background-size: 24px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-      padding: 12px;
+      min-height:420px;
+      flex:1;
+      border:1px solid var(--border);
+      border-radius:15px;
+      background:#0c0d1b;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      padding:12px;
     }
 
     .empty-state {
-      text-align: center;
-      padding: 20px;
-      max-width: 270px;
+      text-align:center;
+      padding:20px;
+      max-width:270px;
     }
 
     .empty-art {
-      width: 90px;
-      height: 90px;
-      margin: 0 auto 20px;
-      border-radius: 25px;
-      display: grid;
-      place-items: center;
-      font-size: 39px;
-      background: linear-gradient(135deg, rgba(155,108,255,.25), rgba(255,101,181,.16));
-      border: 1px solid rgba(255,255,255,.1);
-      animation: float 3s ease-in-out infinite;
+      width:90px;
+      height:90px;
+      margin:0 auto 20px;
+      border-radius:25px;
+      display:grid;
+      place-items:center;
+      font-size:39px;
+      background:linear-gradient(135deg,rgba(155,108,255,.25),rgba(255,101,181,.16));
+      animation:float 3s ease-in-out infinite;
     }
 
     @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-9px); }
+      0%,100% {transform:translateY(0)}
+      50% {transform:translateY(-9px)}
     }
 
     .empty-state h3 {
-      font: 700 17px "Space Grotesk", sans-serif;
-      margin: 0 0 8px;
+      font:700 17px "Space Grotesk",sans-serif;
+      margin:0 0 8px;
     }
 
     .empty-state p {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.7;
-      margin: 0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.7;
+      margin:0;
     }
 
     #resultImage {
-      display: none;
-      max-width: 100%;
-      max-height: 600px;
-      object-fit: contain;
-      border-radius: 10px;
+      display:none;
+      max-width:100%;
+      max-height:600px;
+      object-fit:contain;
+      border-radius:10px;
     }
 
     .loading-state {
-      display: none;
-      text-align: center;
-      padding: 25px;
+      display:none;
+      text-align:center;
+      padding:25px;
     }
 
     .spinner {
-      width: 48px;
-      height: 48px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      border: 3px solid rgba(255,255,255,.12);
-      border-top-color: #bb8cff;
-      animation: spin .8s linear infinite;
+      width:48px;
+      height:48px;
+      margin:0 auto 18px;
+      border-radius:50%;
+      border:3px solid rgba(255,255,255,.12);
+      border-top-color:#bb8cff;
+      animation:spin .8s linear infinite;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin {to {transform:rotate(360deg)}}
 
     .loading-state h3 {
-      font: 700 16px "Space Grotesk", sans-serif;
-      margin: 0 0 7px;
+      font:700 16px "Space Grotesk",sans-serif;
+      margin:0 0 7px;
     }
 
     .loading-state p {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
     }
 
     .result-actions {
-      display: none;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 14px;
+      display:none;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:14px;
     }
 
     .secondary-btn {
-      color: white;
-      background: rgba(255,255,255,.07);
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      padding: 12px;
-      font-size: 12px;
-      font-weight: 700;
+      color:white;
+      background:rgba(255,255,255,.07);
+      border:1px solid var(--border);
+      border-radius:11px;
+      padding:12px;
+      font-size:12px;
+      font-weight:700;
     }
 
-    .secondary-btn:hover { background: rgba(255,255,255,.13); }
+    .secondary-btn:hover {background:rgba(255,255,255,.13)}
 
     .error-message {
-      display: none;
-      margin-top: 13px;
-      padding: 12px;
-      border: 1px solid rgba(255,100,120,.3);
-      border-radius: 10px;
-      color: #ffb0bd;
-      background: rgba(255,80,100,.08);
-      font-size: 12px;
-      line-height: 1.5;
+      display:none;
+      margin-top:13px;
+      padding:12px;
+      border:1px solid rgba(255,100,120,.3);
+      border-radius:10px;
+      color:#ffb0bd;
+      background:rgba(255,80,100,.08);
+      font-size:12px;
+      line-height:1.5;
     }
 
     .features {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      padding-bottom: 65px;
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:15px;
+      padding-bottom:65px;
     }
 
     .feature {
-      padding: 20px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.035);
-      border-radius: 16px;
+      padding:20px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.035);
+      border-radius:16px;
     }
 
-    .feature-icon { font-size: 24px; }
+    .feature-icon {font-size:24px}
 
     .feature h3 {
-      font: 700 14px "Space Grotesk", sans-serif;
-      margin: 12px 0 7px;
+      font:700 14px "Space Grotesk",sans-serif;
+      margin:12px 0 7px;
     }
 
     .feature p {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.6;
-      margin: 0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.6;
+      margin:0;
     }
 
     footer {
-      border-top: 1px solid var(--border);
-      padding: 23px 0;
-      text-align: center;
-      color: var(--muted);
-      font-size: 11px;
+      border-top:1px solid var(--border);
+      padding:23px 0;
+      text-align:center;
+      color:var(--muted);
+      font-size:11px;
     }
 
-    .hidden { display: none !important; }
+    .hidden {display:none!important}
 
-    @media (max-width: 800px) {
-      .workspace { grid-template-columns: 1fr; }
-      .result-panel { min-height: 480px; }
-      .result-stage { min-height: 340px; }
-      .hero { padding-top: 48px; }
+    @media(max-width:800px) {
+      .workspace {grid-template-columns:1fr}
+      .result-panel {min-height:480px}
+      .result-stage {min-height:340px}
+      .hero {padding-top:48px}
     }
 
-    @media (max-width: 520px) {
-      .container { width: min(100% - 22px, 1120px); }
-      header { height: 66px; }
-      .logo { font-size: 19px; }
-      .logo-icon { width: 34px; height: 34px; }
-      .status { font-size: 10px; padding: 7px 9px; }
-      .hero { padding: 42px 4px 28px; }
-      .hero h1 { letter-spacing: -1.8px; }
-      .hero p { font-size: 13px; }
-      .panel { padding: 16px; border-radius: 16px; }
-      .panel-heading h2 { font-size: 17px; }
-      .tab { font-size: 11px; }
-      .result-stage { min-height: 300px; }
-      .result-panel { min-height: 420px; }
-      .features { grid-template-columns: 1fr; gap: 10px; }
-      .feature { padding: 16px; }
+    @media(max-width:520px) {
+      .container {width:min(100% - 22px,1120px)}
+      header {height:66px}
+      .logo {font-size:19px}
+      .logo-icon {width:34px;height:34px}
+      .status {font-size:10px;padding:7px 9px}
+      .hero {padding:42px 4px 28px}
+      .hero h1 {letter-spacing:-1.8px}
+      .hero p {font-size:13px}
+      .panel {padding:16px;border-radius:16px}
+      .panel-heading h2 {font-size:17px}
+      .tab {font-size:11px}
+      .result-stage {min-height:300px}
+      .result-panel {min-height:420px}
+      .features {grid-template-columns:1fr;gap:10px}
+      .feature {padding:16px}
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
+    @media(prefers-reduced-motion:reduce) {
+      *,*::before,*::after {
+        animation-duration:.01ms!important;
+        transition-duration:.01ms!important;
       }
     }
   </style>
@@ -574,9 +532,7 @@
         <div class="logo-icon">✦</div>
         Swipe<span>Pix</span> AI
       </div>
-      <div class="header-right">
-        <div class="status">● AI Studio</div>
-      </div>
+      <div class="status">● AI Studio</div>
     </header>
 
     <section class="hero">
@@ -600,7 +556,6 @@
         <form id="aiForm">
           <div id="uploadSection" class="hidden">
             <label class="field-label">Upload your photo</label>
-
             <div class="upload-area" id="uploadArea" role="button" tabindex="0">
               <div class="upload-icon">📸</div>
               <strong>Click or drop your photo here</strong>
@@ -616,7 +571,7 @@
           </div>
 
           <label class="field-label" for="prompt">Describe your imagination</label>
-          <textarea id="prompt" maxlength="1000" required placeholder="Example: A cinematic portrait of a young person standing in a neon-lit futuristic city, ultra realistic, beautiful lighting, 4K..."></textarea>
+          <textarea id="prompt" maxlength="1000" required placeholder="Example: A cinematic portrait in a futuristic city, ultra realistic, beautiful lighting..."></textarea>
 
           <label class="field-label">Choose a style</label>
           <div class="presets">
@@ -646,10 +601,7 @@
             </div>
           </div>
 
-          <button class="primary-btn" id="generateBtn" type="submit">
-            ✨ Generate with AI
-          </button>
-
+          <button class="primary-btn" id="generateBtn" type="submit">✨ Generate with AI</button>
           <p class="privacy-note">Your uploaded image is sent to the AI service to process your request. Don't upload sensitive or private images.</p>
         </form>
       </section>
@@ -709,14 +661,9 @@
   </div>
 
   <script>
-    // ---------------------------------------
-    // SwipePix AI — Frontend configuration
-    // ---------------------------------------
-
     const API_URL = "/api/ai";
     const MAX_FILE_SIZE = 8 * 1024 * 1024;
-
-    const $ = (id) => document.getElementById(id);
+    const $ = id => document.getElementById(id);
 
     const generateTab = $("generateTab");
     const transformTab = $("transformTab");
@@ -740,360 +687,318 @@
 
     $("year").textContent = new Date().getFullYear();
 
-    // Switch between AI tools
     function setMode(mode) {
       if (isGenerating) return;
 
       currentMode = mode;
+      generateTab.classList.toggle("active",mode==="generate");
+      transformTab.classList.toggle("active",mode==="transform");
+      uploadSection.classList.toggle("hidden",mode!=="transform");
 
-      generateTab.classList.toggle("active", mode === "generate");
-      transformTab.classList.toggle("active", mode === "transform");
-
-      uploadSection.classList.toggle("hidden", mode !== "transform");
-
-      promptInput.placeholder = mode === "generate"
-        ? "Example: A cinematic portrait of a young person standing in a neon-lit futuristic city, ultra realistic, beautiful lighting, 4K..."
+      promptInput.placeholder = mode==="generate"
+        ? "Example: A cinematic portrait in a futuristic city, ultra realistic, beautiful lighting..."
         : "Example: Transform this photo into a cinematic cyberpunk portrait with purple neon lighting. Keep the main subject recognizable...";
 
-      generateBtn.textContent = mode === "generate"
+      generateBtn.textContent = mode==="generate"
         ? "✨ Generate with AI"
         : "🪄 Transform my Photo";
 
       clearError();
     }
 
-    generateTab.addEventListener("click", () => setMode("generate"));
-    transformTab.addEventListener("click", () => setMode("transform"));
+    generateTab.addEventListener("click",()=>setMode("generate"));
+    transformTab.addEventListener("click",()=>setMode("transform"));
 
-    // Style preset buttons
-    document.querySelectorAll(".preset").forEach(button => {
-      button.addEventListener("click", () => {
-        const preset = button.dataset.prompt;
-        const current = promptInput.value.trim();
-
-        promptInput.value = current
-          ? current + " " + preset
-          : preset;
-
+    document.querySelectorAll(".preset").forEach(button=>{
+      button.addEventListener("click",()=>{
+        const preset=button.dataset.prompt;
+        const current=promptInput.value.trim();
+        promptInput.value=current ? current+" "+preset : preset;
         promptInput.focus();
       });
     });
 
-    // Upload handling
-    uploadArea.addEventListener("click", () => photoInput.click());
+    uploadArea.addEventListener("click",()=>photoInput.click());
 
-    uploadArea.addEventListener("keydown", event => {
-      if (event.key === "Enter" || event.key === " ") {
+    uploadArea.addEventListener("keydown",event=>{
+      if(event.key==="Enter" || event.key===" "){
         event.preventDefault();
         photoInput.click();
       }
     });
 
-    photoInput.addEventListener("change", event => {
-      const file = event.target.files && event.target.files[0];
-      if (file) handlePhoto(file);
+    photoInput.addEventListener("change",event=>{
+      const file=event.target.files && event.target.files[0];
+      if(file) handlePhoto(file);
     });
 
-    ["dragenter", "dragover"].forEach(name => {
-      uploadArea.addEventListener(name, event => {
+    ["dragenter","dragover"].forEach(name=>{
+      uploadArea.addEventListener(name,event=>{
         event.preventDefault();
         uploadArea.classList.add("dragover");
       });
     });
 
-    ["dragleave", "drop"].forEach(name => {
-      uploadArea.addEventListener(name, event => {
+    ["dragleave","drop"].forEach(name=>{
+      uploadArea.addEventListener(name,event=>{
         event.preventDefault();
         uploadArea.classList.remove("dragover");
       });
     });
 
-    uploadArea.addEventListener("drop", event => {
-      const file = event.dataTransfer.files[0];
-      if (file) handlePhoto(file);
+    uploadArea.addEventListener("drop",event=>{
+      const file=event.dataTransfer.files[0];
+      if(file) handlePhoto(file);
     });
 
-    function handlePhoto(file) {
-      const allowedTypes = ["image/png", "image/jpeg", "image/webp"];
+    function handlePhoto(file){
+      const allowed=["image/png","image/jpeg","image/webp"];
 
-      if (!allowedTypes.includes(file.type)) {
+      if(!allowed.includes(file.type)){
         showError("Please upload a PNG, JPG or WEBP image.");
         return;
       }
 
-      if (file.size > MAX_FILE_SIZE) {
+      if(file.size>MAX_FILE_SIZE){
         showError("Your photo is larger than 8 MB. Please choose a smaller image.");
         return;
       }
 
-      selectedFile = file;
+      selectedFile=file;
       clearError();
 
-      const reader = new FileReader();
+      const reader=new FileReader();
 
-      reader.onload = () => {
-        sourcePreview.src = reader.result;
-        uploadPreview.style.display = "block";
+      reader.onload=()=>{
+        sourcePreview.src=reader.result;
+        uploadPreview.style.display="block";
       };
 
-      reader.onerror = () => showError("Could not read this image. Please try another one.");
+      reader.onerror=()=>showError("Could not read this image.");
       reader.readAsDataURL(file);
     }
 
-    $("removePhoto").addEventListener("click", () => {
-      selectedFile = null;
-      photoInput.value = "";
+    $("removePhoto").addEventListener("click",()=>{
+      selectedFile=null;
+      photoInput.value="";
       sourcePreview.removeAttribute("src");
-      uploadPreview.style.display = "none";
+      uploadPreview.style.display="none";
       clearError();
     });
 
-    // Resize and compress input image before sending to the backend.
-    // The model's reference image inputs have a 512x512 size constraint.
-    async function prepareImage(file) {
-      const bitmap = await createImageBitmap(file);
+    async function prepareImage(file){
+      const bitmap=await createImageBitmap(file);
+      const scale=Math.min(512/bitmap.width,512/bitmap.height,1);
+      const width=Math.max(1,Math.round(bitmap.width*scale));
+      const height=Math.max(1,Math.round(bitmap.height*scale));
 
-      const scale = Math.min(512 / bitmap.width, 512 / bitmap.height, 1);
-      const width = Math.max(1, Math.round(bitmap.width * scale));
-      const height = Math.max(1, Math.round(bitmap.height * scale));
+      const canvas=document.createElement("canvas");
+      canvas.width=width;
+      canvas.height=height;
 
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-
-      const context = canvas.getContext("2d");
-      context.drawImage(bitmap, 0, 0, width, height);
+      const context=canvas.getContext("2d");
+      context.drawImage(bitmap,0,0,width,height);
       bitmap.close();
 
-      return canvas.toDataURL("image/jpeg", 0.88);
+      return canvas.toDataURL("image/jpeg",0.88);
     }
 
-    // User interface helpers
-    function showError(message) {
-      errorMessage.textContent = message;
-      errorMessage.style.display = "block";
+    function showError(message){
+      errorMessage.textContent=message;
+      errorMessage.style.display="block";
     }
 
-    function clearError() {
-      errorMessage.textContent = "";
-      errorMessage.style.display = "none";
+    function clearError(){
+      errorMessage.textContent="";
+      errorMessage.style.display="none";
     }
 
-    function showLoading(loading) {
-      isGenerating = loading;
-      generateBtn.disabled = loading;
-      generateTab.disabled = loading;
-      transformTab.disabled = loading;
+    function showLoading(loading){
+      isGenerating=loading;
+      generateBtn.disabled=loading;
+      generateTab.disabled=loading;
+      transformTab.disabled=loading;
 
-      if (loading) {
-        emptyState.style.display = "none";
-        resultImage.style.display = "none";
-        resultActions.style.display = "none";
-        loadingState.style.display = "block";
-        $("loadingText").innerHTML =
-          "AI is bringing your imagination to life.<br>Please wait a little.";
-        generateBtn.textContent = "⏳ Creating your image...";
-        $("resultLabel").textContent = "GENERATING";
-      } else {
-        loadingState.style.display = "none";
-        generateBtn.textContent = currentMode === "generate"
+      if(loading){
+        emptyState.style.display="none";
+        resultImage.style.display="none";
+        resultActions.style.display="none";
+        loadingState.style.display="block";
+        $("loadingText").textContent="AI is bringing your imagination to life. Please wait a little.";
+        generateBtn.textContent="⏳ Creating your image...";
+        $("resultLabel").textContent="GENERATING";
+      }else{
+        loadingState.style.display="none";
+        generateBtn.textContent=currentMode==="generate"
           ? "✨ Generate with AI"
           : "🪄 Transform my Photo";
       }
     }
 
-    function displayResult(imageData) {
-      generatedImage = imageData;
-      resultImage.src = imageData;
-      resultImage.style.display = "block";
-      emptyState.style.display = "none";
-      loadingState.style.display = "none";
-      resultActions.style.display = "grid";
-      $("resultLabel").textContent = "AI RESULT";
+    function displayResult(imageData){
+      generatedImage=imageData;
+      resultImage.src=imageData;
+      resultImage.style.display="block";
+      emptyState.style.display="none";
+      loadingState.style.display="none";
+      resultActions.style.display="grid";
+      $("resultLabel").textContent="AI RESULT";
     }
 
-    // Main AI request
-    $("aiForm").addEventListener("submit", async event => {
+    $("aiForm").addEventListener("submit",async event=>{
       event.preventDefault();
+      if(isGenerating) return;
 
-      if (isGenerating) return;
+      const prompt=promptInput.value.trim();
 
-      const prompt = promptInput.value.trim();
-
-      if (!prompt) {
+      if(!prompt){
         showError("Please describe the image you want to create.");
         promptInput.focus();
         return;
       }
 
-      if (prompt.length > 1000) {
-        showError("Your prompt is too long. Please keep it under 1000 characters.");
-        return;
-      }
-
-      if (currentMode === "transform" && !selectedFile) {
+      if(currentMode==="transform" && !selectedFile){
         showError("Please upload a photo before transforming it.");
         return;
       }
 
       clearError();
 
-      const dimensions = $("aspectRatio").value.split(",").map(Number);
-      let [width, height] = dimensions;
+      const [width,height]=$("aspectRatio").value.split(",").map(Number);
 
-      if ($("quality").value === "large") {
-        width = Math.min(1024, width);
-        height = Math.min(1024, height);
-      }
-
-      const payload = {
-        mode: currentMode === "generate" ? "generate" : "edit",
+      const payload={
+        mode:currentMode==="generate" ? "generate" : "edit",
         prompt,
         width,
         height
       };
 
-      try {
+      try{
         showLoading(true);
 
-        if (currentMode === "transform") {
-          $("loadingText").textContent = "Preparing your photo and sending it to AI...";
-          payload.imageBase64 = await prepareImage(selectedFile);
+        if(currentMode==="transform"){
+          $("loadingText").textContent="Preparing your photo and sending it to AI...";
+          payload.imageBase64=await prepareImage(selectedFile);
         }
 
-        const response = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
+        const response=await fetch(API_URL,{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(payload)
         });
 
         let data;
 
-        try {
-          data = await response.json();
-        } catch {
-          throw new Error("The server returned an invalid response. Please try again.");
+        try{
+          data=await response.json();
+        }catch{
+          throw new Error("The server returned an invalid response.");
         }
 
-        if (!response.ok || !data.success || !data.image) {
-          throw new Error(
-            data.error || data.details || "AI generation failed. Please try again."
-          );
+        if(!response.ok || !data.success || !data.image){
+          throw new Error(data.error || data.details || "AI generation failed. Please try again.");
         }
 
         displayResult(data.image);
 
-      } catch (error) {
-        console.error("SwipePix AI:", error);
-
-        emptyState.style.display = "block";
-        resultImage.style.display = "none";
-        resultActions.style.display = "none";
-
+      }catch(error){
+        console.error("SwipePix AI:",error);
+        emptyState.style.display="block";
+        resultImage.style.display="none";
+        resultActions.style.display="none";
         showError(error.message || "Something went wrong. Please try again.");
-        $("resultLabel").textContent = "ERROR";
+        $("resultLabel").textContent="ERROR";
 
-      } finally {
+      }finally{
         showLoading(false);
       }
     });
 
-    // Download generated image
-    $("downloadBtn").addEventListener("click", () => {
-      if (!generatedImage) {
+    $("downloadBtn").addEventListener("click",()=>{
+      if(!generatedImage){
         showError("Generate an image before downloading.");
         return;
       }
 
-      const link = document.createElement("a");
-      link.href = generatedImage;
-      link.download = "swipepix-ai-" + Date.now() + ".png";
-
+      const link=document.createElement("a");
+      link.href=generatedImage;
+      link.download="swipepix-ai-"+Date.now()+".png";
       document.body.appendChild(link);
       link.click();
       link.remove();
     });
 
-    // Create another image
-    $("newImageBtn").addEventListener("click", () => {
-      if (isGenerating) return;
+    $("newImageBtn").addEventListener("click",()=>{
+      if(isGenerating) return;
 
-      generatedImage = null;
+      generatedImage=null;
       resultImage.removeAttribute("src");
-      resultImage.style.display = "none";
-      resultActions.style.display = "none";
-      emptyState.style.display = "block";
-      $("resultLabel").textContent = "PREVIEW";
+      resultImage.style.display="none";
+      resultActions.style.display="none";
+      emptyState.style.display="block";
+      $("resultLabel").textContent="PREVIEW";
       clearError();
 
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+      window.scrollTo({top:0,behavior:"smooth"});
     });
 
     // Animated background particles
-    (function initParticles() {
-      const canvas = $("particles");
-      const ctx = canvas.getContext("2d");
+    (function initParticles(){
+      const canvas=$("particles");
+      const ctx=canvas.getContext("2d");
+      if(!ctx) return;
 
-      if (!ctx) return;
-
-      let particles = [];
-      let width = 0;
-      let height = 0;
+      let particles=[];
+      let width=0;
+      let height=0;
       let animationFrame;
 
-      function resize() {
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      function resize(){
+        const dpr=Math.min(window.devicePixelRatio||1,2);
+        width=window.innerWidth;
+        height=window.innerHeight;
 
-        width = window.innerWidth;
-        height = window.innerHeight;
+        canvas.width=width*dpr;
+        canvas.height=height*dpr;
+        canvas.style.width=width+"px";
+        canvas.style.height=height+"px";
+        ctx.setTransform(dpr,0,0,dpr,0,0);
 
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
-        canvas.style.width = width + "px";
-        canvas.style.height = height + "px";
+        const count=Math.min(65,Math.floor(width/18));
 
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-        const count = Math.min(65, Math.floor(width / 18));
-
-        particles = Array.from({ length: count }, () => ({
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius: Math.random() * 1.7 + .4,
-          speed: Math.random() * .35 + .08,
-          alpha: Math.random() * .5 + .15
+        particles=Array.from({length:count},()=>({
+          x:Math.random()*width,
+          y:Math.random()*height,
+          radius:Math.random()*1.7+.4,
+          speed:Math.random()*.35+.08,
+          alpha:Math.random()*.5+.15
         }));
       }
 
-      function animate() {
-        ctx.clearRect(0, 0, width, height);
+      function animate(){
+        ctx.clearRect(0,0,width,height);
 
-        particles.forEach(particle => {
-          particle.y -= particle.speed;
+        particles.forEach(p=>{
+          p.y-=p.speed;
 
-          if (particle.y < -5) {
-            particle.y = height + 5;
-            particle.x = Math.random() * width;
+          if(p.y < -5){
+            p.y=height+5;
+            p.x=Math.random()*width;
           }
 
           ctx.beginPath();
-          ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(190,155,255,${particle.alpha})`;
+          ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+          ctx.fillStyle=`rgba(190,155,255,${p.alpha})`;
           ctx.fill();
         });
 
-        animationFrame = requestAnimationFrame(animate);
+        animationFrame=requestAnimationFrame(animate);
       }
 
       resize();
       animate();
 
-      window.addEventListener("resize", () => {
+      window.addEventListener("resize",()=>{
         cancelAnimationFrame(animationFrame);
         resize();
         animate();
