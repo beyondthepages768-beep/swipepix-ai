@@ -1,1 +1,145 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Create beautiful TikTok photo swipe carousels for free. Upload photos, customize slides and download your carousel.">
+<title>SwipePix AI - TikTok Photo Swipe Maker</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b0b12;color:#fff;font-family:Arial,sans-serif}
+header{text-align:center;padding:35px 15px}
+.logo{font-size:30px;font-weight:800;color:#ff4f91}
+header p{color:#aaa}
+main{max-width:850px;margin:auto;padding:15px}
+.panel{background:#171722;border:1px solid #303044;border-radius:16px;padding:22px;margin-bottom:20px}
+h2{font-size:19px}
+.upload{display:block;border:2px dashed #777;border-radius:12px;padding:35px 15px;text-align:center;cursor:pointer;color:#ddd}
+.upload input{display:none}
+input[type=text]{width:100%;padding:14px;border-radius:9px;border:1px solid #444;background:#101019;color:white;margin-top:10px}
+button{border:0;border-radius:9px;padding:13px 18px;background:#ff4085;color:white;font-weight:bold;cursor:pointer;margin:5px}
+button:disabled{opacity:.4}
+#slides{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.slide{background:#252535;border-radius:12px;padding:8px;text-align:center}
+.slide img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:8px}
+.slide button{font-size:12px;padding:8px}
+.muted{color:#aaa;font-size:13px}
+footer{text-align:center;padding:30px;color:#888}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">SwipePix AI ✨</div>
+<h1>TikTok Photo Swipe Maker</h1>
+<p>Create beautiful photo carousels in seconds. Free to use!</p>
+</header>
+
+<main>
+<section class="panel">
+<h2>1. Upload your photos</h2>
+<label class="upload">
+📸<br><br>
+<strong>Choose Multiple Photos</strong>
+<p class="muted">Select JPG, PNG or WebP images</p>
+<input type="file" id="files" accept="image/*" multiple>
+</label>
+<p class="muted">Your photos are processed in your browser.</p>
+</section>
+
+<section class="panel">
+<h2>2. Customize your carousel</h2>
+<label>Carousel title</label>
+<input type="text" id="heading" placeholder="My amazing photo collection">
+<br><br>
+<button onclick="generate()">Generate Slides</button>
+<button onclick="clearAll()" style="background:#444">Clear All</button>
+</section>
+
+<section class="panel">
+<h2>3. Preview and download</h2>
+<p class="muted" id="count">No photos uploaded yet.</p>
+<div id="slides"></div>
+</section>
+</main>
+
+<footer>© 2026 SwipePix AI · Free TikTok Photo Carousel Maker</footer>
+
+<script>
+let photos=[];
+const files=document.getElementById('files');
+files.addEventListener('change',()=>{
+  [...files.files].forEach(file=>{
+    if(!file.type.startsWith('image/')) return;
+    const reader=new FileReader();
+    reader.onload=e=>{
+      photos.push({src:e.target.result,name:file.name});
+      render();
+    };
+    reader.readAsDataURL(file);
+  });
+  files.value='';
+});
+
+function render(){
+ document.getElementById('count').textContent=
+ photos.length+' photos selected';
+ document.getElementById('slides').innerHTML='';
+ photos.forEach((p,i)=>{
+  const div=document.createElement('div');
+  div.className='slide';
+  const img=document.createElement('img');
+  img.src=p.src;
+  const label=document.createElement('p');
+  label.textContent='Slide '+(i+1);
+  const remove=document.createElement('button');
+  remove.textContent='Remove';
+  remove.onclick=()=>{photos.splice(i,1);render()};
+  div.append(img,label,remove);
+  document.getElementById('slides').append(div);
+ });
+}
+
+function clearAll(){
+ photos=[];
+ render();
+}
+
+function generate(){
+ if(!photos.length){
+  alert('Please upload some photos first!');
+  return;
+ }
+ render();
+}
+
+function downloadSlide(index){
+ const photo=photos[index];
+ const img=new Image();
+ img.onload=()=>{
+  const canvas=document.createElement('canvas');
+  canvas.width=1080;
+  canvas.height=1440;
+  const ctx=canvas.getContext('2d');
+  const scale=Math.max(1080/img.width,1440/img.height);
+  const w=img.width*scale,h=img.height*scale;
+  ctx.drawImage(img,(1080-w)/2,(1440-h)/2,w,h);
+  const title=document.getElementById('heading').value;
+  if(title){
+   ctx.fillStyle='rgba(0,0,0,.55)';
+   ctx.fillRect(0,1280,1080,160);
+   ctx.fillStyle='white';
+   ctx.font='bold 46px Arial';
+   ctx.fillText(title.slice(0,35),45,1370);
+  }
+  const a=document.createElement('a');
+  a.download='swipepix-slide-'+(index+1)+'.png';
+  a.href=canvas.toDataURL('image/png');
+  a.click();
+ };
+ img.src=photo.src;
+}
+</script>
+</body>
+</html>
+
